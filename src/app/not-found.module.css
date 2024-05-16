@@ -1,0 +1,41 @@
+.Div404 {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
+  justify-content: center;
+  background-color: #383838;
+}
+
+.H1404 {
+  color: #ad61ff;
+  font-weight: 800;
+  font-size: 150px;
+}
+
+.P1404 {
+  color:#ffffff;  
+  font-weight: 400;
+  font-size: 40px;
+}
+
+.P2404 {
+  color:#ffffff;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.linkStyled404 {
+  font-size: 20;
+  color: #ad61ff;
+  font-weight: 550;
+  transition: all 0.25s;
+}
+
+.linkStyled404:hover {
+  scale: 1.1;
+ 
+  text-decoration: underline;
+}
