@@ -28,6 +28,11 @@
     color: #ffffff;
     margin-right: 16px;
   }
+  .linkPersonalName {
+    font-family: inherit;
+    color: #ffffff;
+    text-decoration: underline;
+  }
   
   .sidebarIcon {
     width: 43px;

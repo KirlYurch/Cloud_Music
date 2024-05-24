@@ -1,0 +1,58 @@
+.filterWrapper {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  padding: 34px;
+  border-radius: 12px;
+  background: rgb(49, 49, 49);
+  top: 50px;
+  white-space: nowrap;
+}
+
+/* Удалите следующие стили, связанные со скролл баром */
+.filterWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Удалите следующие стили, связанные со скролл баром */
+.filterWrapper::-webkit-scrollbar-thumb {
+  display: none;
+}
+.filterList {
+  position: static;
+  width: fit-content;
+  height: fit-content;
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+}
+
+.li {
+  position: static;
+  width: fit-content;
+  height: 24px;
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 10px 0px;
+  transition: 0.3s ease;
+}
+
+.li:hover {
+  color: rgb(182, 114, 255);
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0%;
+  text-align: left;
+  text-decoration-line: underline;
+  cursor: pointer;
+}
