@@ -13,6 +13,5 @@ export default function FilterItem({ FilterList }: FilterItemProps) {
         ))}
       </ul>
     </div>
-
-  )
-};
+  );
+}

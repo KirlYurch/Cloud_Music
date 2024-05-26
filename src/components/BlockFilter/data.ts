@@ -7,9 +7,9 @@ export const authors = [
 ];
 
   export const years = [
-  { id: 1, name: "1992" },
-  { id: 2, name: "1993" },
-  { id: 3, name: "1994" },
+  { id: 1, name: "По умолчанию" },
+  { id: 2, name: "Сначала новые" },
+  { id: 3, name: "Сначала старые" },
 ];
   
   export const genres = [

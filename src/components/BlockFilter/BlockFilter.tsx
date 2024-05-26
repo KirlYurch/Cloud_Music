@@ -1,16 +1,56 @@
 "use client";
 import classNames from "classnames";
 import styles from "@components/BlockFilter/BlockFilter.module.css";
-import { useState } from "react";
-import { authors, genres, years } from "./data";
+import { useState, useEffect } from "react";
 import FilterItem from "@components/FilterItem/FilterItem";
+import { years } from "./data";
 
-export default function FilterBlock() {
+// Определяем тип для элементов фильтра
+type FilterItem = {
+  id: number;
+  name: string;
+};
+
+export default function BlockFilter() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [authors, setAuthors] = useState<FilterItem[]>([]);
+  const [genres, setGenres] = useState<FilterItem[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch("https://skypro-music-api.skyeng.tech/catalog/track/all/");
+        if (!res.ok) {
+          throw new Error("Ошибка при получении данных");
+        }
+        const data = await res.json();
+
+        // Пример преобразования данных
+        const authorSet = new Set<string>();
+        const genreSet = new Set<string>();
+
+        data.forEach((item: any) => {
+          authorSet.add(item.author);
+          genreSet.add(item.genre);
+        });
+
+        const authorsArray = Array.from(authorSet).map((author, index) => ({ id: index + 1, name: author }));
+        const genresArray = Array.from(genreSet).map((genre, index) => ({ id: index + 1, name: genre }));
+
+        setAuthors(authorsArray);
+        setGenres(genresArray);
+      } catch (error) {
+        console.error("Ошибка:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   function handleFilterClick(newFilter: string) {
     setActiveFilter((prev) => (newFilter === prev ? null : newFilter));
   }
+
   return (
     <div className={classNames(styles.centerblockFilter, styles.filter)}>
       <div className={styles.filterTitle}>Искать по:</div>
