@@ -1,7 +1,18 @@
+"use client"
 import classNames from "classnames";
 import styles from "@components/BarVolumeBlock/BarVolumeBlock.module.css";
+import { useState } from "react";
+type BarVolumeProps = {
+    handleVolume: any;
+  };
 
-export default function BarVolumeBlock() {
+export default function BarVolumeBlock({handleVolume}: BarVolumeProps) {
+    const [volume, setVolume] = useState("");
+    const onChange = (e: any) => {
+      let newVolume = e.target.value;
+      setVolume(newVolume);
+      handleVolume(+newVolume)
+    };
     return (
         <div className={classNames(styles.barVolumeBlock, styles.volume)}>
             <div className={styles.volumeContent}>
@@ -15,6 +26,11 @@ export default function BarVolumeBlock() {
                         className={classNames(styles.volumeProgressLine, styles._btn)}
                         type="range"
                         name="range"
+                        min={0}
+                        value={volume}
+                        max={100}
+                        onChange={onChange}
+                        step={1}
                     />
                 </div>
             </div>

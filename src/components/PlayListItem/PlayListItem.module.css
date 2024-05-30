@@ -1,7 +1,16 @@
 .playlistItem {
   width: 100%;
   display: block;
+  margin-top: 3px;
   margin-bottom: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  transition: all 0.3s ease;
+}
+
+.playlistItem:hover{
+  box-shadow: 0 0 5px 2px #464646;
+  cursor: pointer;
 }
 
 .playlistTrack {
