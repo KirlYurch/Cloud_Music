@@ -6,39 +6,29 @@
   margin-left: 3px;
   margin-right: 3px;
   transition: all 0.3s ease;
+  padding-right: 15px;
+  border-radius: 3px;
 }
 
-.playlistItem:hover{
-  box-shadow: 0 0 5px 2px #464646;
+.playlistItem:hover {
+  box-shadow: 0 0 5px 2px #2c2c2c;
   cursor: pointer;
 }
 
+.activeTrack {
+  box-shadow: 0 0 5px 2px #464646;
+}
+
 .playlistTrack {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
   justify-content: space-between;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
 }
 
 .trackTitle {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   width: 447px;
   color: #ffffff;
@@ -49,27 +39,21 @@
   height: 51px;
   padding: 16px;
   background: #313131;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
   margin-right: 17px;
   fill: transparent;
 }
 
-.trackTtitleSvg {
+.trackTitleSvg {
   width: 18px;
   height: 17px;
   fill: transparent;
   stroke: #4e4e4e;
 }
 
-.trackTtitleLink {
+.trackTitleLink {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -87,11 +71,7 @@
 
 .trackAuthor {
   width: 321px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
   justify-content: flex-start;
 }
 
@@ -149,4 +129,25 @@
 .trackTime {
   display: flex;
   align-items: center;
+}
+
+.trackImagePlaying {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: rgb(142, 11, 218);
+}
+
+@keyframes trackAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+}
+
+.trackAnimation {
+  animation: trackAnimation ease-in-out 1s infinite;
 }

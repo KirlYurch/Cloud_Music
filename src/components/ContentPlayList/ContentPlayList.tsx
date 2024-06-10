@@ -2,26 +2,28 @@
 import classNames from "classnames";
 import styles from "@components/ContentPlayList/ContentPlayList.module.css";
 import PlayListItem from "@components/PlayListItem/PlayListItem";
+import { trackType } from "@/types";
+
+import { useEffect, useState } from "react";
 import { getTracks } from "@/api/tracks";
-import { trackType } from "../types";
 
-type ContentPlayListProps = {
-    trackList: trackType[];
-    setTrack: (param: trackType) => void;
-}
-
-export default function ContentPlayList({ setTrack, trackList }: ContentPlayListProps) {
+export default function ContentPlayList() {
    
+    
+    // получаем треки из API
+    const [trackList, setTrackList] = useState<trackType[]>([]);
+    useEffect(() => {
+        getTracks().then((data) => setTrackList(data))
+    }, [])
+
     return (
         <div className={classNames(styles.contentPlaylist, styles.playlist)}>
             {trackList?.map((track) => (
-                <PlayListItem 
-                key={track.id} 
-                setTrack={() => setTrack(track)}
-                name={track.name}
-                author={track.author}
-                album={track.album}
-                time={track.duration_in_seconds}
+                <PlayListItem
+                    key={track.id}
+                    track={track}
+                    playlist={trackList}
+                 
                 />
             ))}
         </div>
