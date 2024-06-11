@@ -1,11 +1,11 @@
 import styles from "./ProgressBar.module.css";
 type ProgressBarProps = {
-    max: number, value: number, onChange: (value:any) => void
+    max: number, value: number, onChange: (value: number) => void
 }
 
 export default function ProgressBar({ max, value, onChange }: ProgressBarProps) {
-    const handleChange = (e: any) => {
-        const newValue = e.target.value
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = parseFloat(e.target.value);
         onChange(newValue)
     }
     return (

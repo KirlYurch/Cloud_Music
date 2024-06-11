@@ -6,15 +6,20 @@ import FilterItem from "@components/FilterItem/FilterItem";
 import { years } from "./data";
 
 // Определяем тип для элементов фильтра
-type FilterItem = {
+type FilterItemType = {
   id: number;
   name: string;
 };
 
+type TrackData = {
+  author: string;
+  genre: string;
+};
+
 export default function BlockFilter() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [authors, setAuthors] = useState<FilterItem[]>([]);
-  const [genres, setGenres] = useState<FilterItem[]>([]);
+  const [authors, setAuthors] = useState<FilterItemType[]>([]);
+  const [genres, setGenres] = useState<FilterItemType[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -23,13 +28,13 @@ export default function BlockFilter() {
         if (!res.ok) {
           throw new Error("Ошибка при получении данных");
         }
-        const data = await res.json();
+        const data: TrackData[] = await res.json();
 
         // Пример преобразования данных
         const authorSet = new Set<string>();
         const genreSet = new Set<string>();
 
-        data.forEach((item: any) => {
+        data.forEach((item: TrackData) => {
           authorSet.add(item.author);
           genreSet.add(item.genre);
         });
