@@ -8,7 +8,6 @@ import { getTracks } from "@/api/tracks";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setPlaylist } from "@/store/features/playlistSlice";
 import { RootState } from "@/store/store";
-
 export default function ContentPlayList() {
   const dispatch = useAppDispatch();
 
@@ -41,7 +40,6 @@ export default function ContentPlayList() {
       </div>
     );
   }
-
   return (
     <div className={classNames(styles.contentPlaylist, styles.playlist)}>
       {filterPlaylist.length > 0 ? (

@@ -42,7 +42,6 @@ const playlistSlice = createSlice({
   reducers: {
     setCurrentTrack: (state, action: PayloadAction<SetCurrentTrackType>) => {
       state.currentTrack = action.payload.currentTrack;
-      state.playlist = action.payload.playlist;
     },
     nextTrack: (state) => {
       const playlist = state.isShuffled
@@ -108,9 +107,11 @@ const playlistSlice = createSlice({
       };
 
       // Если строка поиска пуста, сбрасываем фильтрованный плейлист
-      if (state.filterOptions.searchString === "" && 
-          state.filterOptions.author.length === 0 &&
-          state.filterOptions.genre.length === 0) {
+      if (
+        state.filterOptions.searchString === "" &&
+        state.filterOptions.author.length === 0 &&
+        state.filterOptions.genre.length === 0
+      ) {
         state.filterPlaylist = state.playlist;
         return;
       }
@@ -127,7 +128,6 @@ const playlistSlice = createSlice({
           state.filterOptions.genre.length > 0
             ? state.filterOptions.genre.includes(track.genre)
             : true;
-
         return hasSearchString && hasAuthor && hasGenre;
       });
 
