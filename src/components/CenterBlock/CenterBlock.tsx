@@ -2,9 +2,11 @@ import classNames from "classnames";
 import styles from "@components/CenterBlock/CenterBlock.module.css";
 import BlockFilter from "@components/BlockFilter/BlockFilter";
 import ContentPlayList from "@components/ContentPlayList/ContentPlayList";
+import { useAppDispatch } from "@/hooks";
+import { setFilter } from "@/store/features/playlistSlice";
 
 export default function CenterBlock() {
-
+    const dispatch = useAppDispatch();
     return (
         <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
             <div className={classNames(styles.centerblockSearch, styles.search)}>
@@ -16,6 +18,9 @@ export default function CenterBlock() {
                     type="search"
                     placeholder="Поиск"
                     name="search"
+                    onChange={(ev) => {
+                        dispatch(setFilter({ searchString: ev.target.value }));
+                    }}
                 />
             </div>
             <h2 className={styles.centerblockH2}>Треки</h2>
@@ -38,6 +43,5 @@ export default function CenterBlock() {
 
             </div>
         </div>
-
-    )
+    );
 }

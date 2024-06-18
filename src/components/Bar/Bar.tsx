@@ -6,17 +6,24 @@ import { useEffect, useRef, useState } from "react";
 import ProgressBar from "@components/ProgressBar/ProgressBar";
 import { formatTime } from "@/lib/formatTime";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { nextTrack, prevTrack, setPause, setPlay, setShuffle } from "@/store/features/playlistSlice";
+import {
+  nextTrack,
+  prevTrack,
+  setPause,
+  setPlay,
+  setShuffle,
+} from "@/store/features/playlistSlice";
 
 export default function Bar() {
-  const { currentTrack, isPlaying, isShuffled } = useAppSelector((store) => store.playlist);
+  const { currentTrack, isPlaying, isShuffled } = useAppSelector(
+    (store) => store.playlist
+  );
   const dispatch = useAppDispatch();
   // Использование useRef для получения доступа к элементу <audio>
   const audioRef = useRef<HTMLAudioElement>(null);
   const duration = audioRef.current?.duration || 0;
   const [currentTime, setCurrentTime] = useState(0);
   const [isLoop, setIsLoop] = useState(false);
-
 
   useEffect(() => {
     dispatch(setPlay());
@@ -98,14 +105,20 @@ export default function Bar() {
         <div className={styles.bar}>
           <div className={styles.barContent}>
             <audio src={currentTrack?.track_file} ref={audioRef}></audio>
-            <div className={styles.barTime}>
-              {currentTrack && `${formatTime(currentTime)} / ${formatTime(duration)}`}
-            </div>
+            <div style={{ height: "10px" }} />
             <ProgressBar
               value={currentTime}
               max={duration}
               onChange={progressTrack}
             />
+            <div className={styles.barTime}>
+              <span className={styles.currentTime}>
+                {formatTime(currentTime)}
+              </span>
+              <span className={styles.durationTime}>
+                {formatTime(duration)}
+              </span>
+            </div>
             <div className={styles.barPlayerProgress}></div>
 
             <div className={styles.barPlayerBlock}>
@@ -141,7 +154,10 @@ export default function Bar() {
                   </div>
                   <div
                     onClick={handleLoop}
-                    className={classNames(styles.playerBtnRepeat, styles._btnIcon)}
+                    className={classNames(
+                      styles.playerBtnRepeat,
+                      styles._btnIcon
+                    )}
                   >
                     <svg className={styles.playerBtnRepeatSvg}>
                       {isLoop ? (
@@ -153,7 +169,10 @@ export default function Bar() {
                   </div>
                   <div
                     onClick={handleShuffle}
-                    className={classNames(styles.playerBtnShuffle, styles._btnIcon)}
+                    className={classNames(
+                      styles.playerBtnShuffle,
+                      styles._btnIcon
+                    )}
                   >
                     <svg className={styles.playerBtnShuffleSvg}>
                       {isShuffled ? (
@@ -165,7 +184,10 @@ export default function Bar() {
                   </div>
                 </div>
                 <div
-                  className={classNames(styles.playerTrackPlay, styles.trackPlay)}
+                  className={classNames(
+                    styles.playerTrackPlay,
+                    styles.trackPlay
+                  )}
                 >
                   <div className={styles.trackPlayContain}>
                     <div className={styles.trackPlayImage}>
@@ -185,12 +207,22 @@ export default function Bar() {
                     </div>
                   </div>
                   <div className={styles.trackPlayLikeDis}>
-                    <div className={classNames(styles.trackPlayLike, styles._btnIcon)}>
+                    <div
+                      className={classNames(
+                        styles.trackPlayLike,
+                        styles._btnIcon
+                      )}
+                    >
                       <svg className={styles.trackPlayLikeSvg}>
                         <use href="/image/icon/sprite.svg#icon-like" />
                       </svg>
                     </div>
-                    <div className={classNames(styles.trackPlayDislike, styles._btnIcon)}>
+                    <div
+                      className={classNames(
+                        styles.trackPlayDislike,
+                        styles._btnIcon
+                      )}
+                    >
                       <svg className={styles.trackPlayDislikeSvg}>
                         <use href="/image/icon/sprite.svg#icon-dislike" />
                       </svg>

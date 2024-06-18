@@ -1,5 +1,3 @@
-
-
 import { trackType } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -9,6 +7,13 @@ type PlaylistStateType = {
   isPlaying: boolean;
   isShuffled: boolean;
   shuffledPlaylist: trackType[];
+  filterOptions: {
+    author: string[];
+    genre: string[];
+    order: string;
+    searchString: string;
+  };
+  filterPlaylist: trackType[];
 };
 
 type SetCurrentTrackType = {
@@ -22,6 +27,13 @@ const initialState: PlaylistStateType = {
   isPlaying: false,
   isShuffled: false,
   shuffledPlaylist: [],
+  filterOptions: {
+    author: [],
+    genre: [],
+    order: "По умолчанию",
+    searchString: "",
+  },
+  filterPlaylist: [],
 };
 
 const playlistSlice = createSlice({
@@ -31,8 +43,6 @@ const playlistSlice = createSlice({
     setCurrentTrack: (state, action: PayloadAction<SetCurrentTrackType>) => {
       state.currentTrack = action.payload.currentTrack;
       state.playlist = action.payload.playlist;
-      // state.shuffledPlaylist = [...action.payload.playlist].sort(() => 0.5 - Math.random()
-      // );
     },
     nextTrack: (state) => {
       const playlist = state.isShuffled
@@ -60,9 +70,6 @@ const playlistSlice = createSlice({
       }
       state.isPlaying = true;
     },
-    setPlayList: (state, action) => {
-      state.currentTrack = action.payload;
-    },
     setPlay: (state) => {
       state.isPlaying = true;
     },
@@ -77,6 +84,74 @@ const playlistSlice = createSlice({
         state.shuffledPlaylist = playList;
       }
     },
+    setPlaylist: (state, action: PayloadAction<{ tracks: trackType[] }>) => {
+      state.playlist = action.payload.tracks;
+      state.filterPlaylist = action.payload.tracks; // Инициализация filterPlaylist
+    },
+    setFilter: (
+      state,
+      action: PayloadAction<{
+        author?: string[];
+        genre?: string[];
+        order?: string;
+        searchString?: string;
+      }>
+    ) => {
+      state.filterOptions = {
+        author: action.payload.author || state.filterOptions.author,
+        genre: action.payload.genre || state.filterOptions.genre,
+        order: action.payload.order || state.filterOptions.order,
+        searchString:
+          action.payload.searchString !== undefined
+            ? action.payload.searchString
+            : state.filterOptions.searchString,
+      };
+
+      // Если строка поиска пуста, сбрасываем фильтрованный плейлист
+      if (state.filterOptions.searchString === "" && 
+          state.filterOptions.author.length === 0 &&
+          state.filterOptions.genre.length === 0) {
+        state.filterPlaylist = state.playlist;
+        return;
+      }
+
+      const filterTracks = [...state.playlist].filter((track) => {
+        const hasSearchString = track.name
+          .toLowerCase()
+          .includes(state.filterOptions.searchString.toLowerCase());
+        const hasAuthor =
+          state.filterOptions.author.length > 0
+            ? state.filterOptions.author.includes(track.author)
+            : true;
+        const hasGenre =
+          state.filterOptions.genre.length > 0
+            ? state.filterOptions.genre.includes(track.genre)
+            : true;
+
+        return hasSearchString && hasAuthor && hasGenre;
+      });
+
+      switch (state.filterOptions.order) {
+        case "Сначала новые":
+          filterTracks.sort(
+            (a, b) =>
+              new Date(b.release_date).getTime() -
+              new Date(a.release_date).getTime()
+          );
+          break;
+        case "Сначала старые":
+          filterTracks.sort(
+            (a, b) =>
+              new Date(a.release_date).getTime() -
+              new Date(b.release_date).getTime()
+          );
+          break;
+        default:
+          break;
+      }
+
+      state.filterPlaylist = filterTracks;
+    },
   },
 });
 
@@ -84,9 +159,10 @@ export const {
   setCurrentTrack,
   nextTrack,
   prevTrack,
-  setPlayList,
   setPlay,
   setPause,
   setShuffle,
+  setFilter,
+  setPlaylist,
 } = playlistSlice.actions;
 export const playlistReducer = playlistSlice.reducer;
