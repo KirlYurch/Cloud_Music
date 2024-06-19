@@ -147,9 +147,8 @@ const playlistSlice = createSlice({
           );
           break;
         default:
-          break;
+          filterTracks.sort((a, b) => a.id - b.id);
       }
-
       state.filterPlaylist = filterTracks;
     },
   },

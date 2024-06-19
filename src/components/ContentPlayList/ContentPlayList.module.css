@@ -151,3 +151,7 @@
     display: flex;
     align-items: center;
   }
+
+  .loadingMessage {
+    font-size: 20px;
+  }

@@ -1,9 +1,10 @@
-"use client";
 import classNames from "classnames";
 import styles from "@components/BlockFilter/BlockFilter.module.css";
 import { useState, useEffect } from "react";
 import FilterItem from "@components/FilterItem/FilterItem";
 import { years } from "./data";
+import { useAppDispatch } from "@/hooks";
+import { setFilter } from "@/store/features/playlistSlice";
 
 // Определяем тип для элементов фильтра
 type FilterItemType = {
@@ -20,6 +21,7 @@ export default function BlockFilter() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [authors, setAuthors] = useState<FilterItemType[]>([]);
   const [genres, setGenres] = useState<FilterItemType[]>([]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function fetchData() {
@@ -54,6 +56,10 @@ export default function BlockFilter() {
 
   function handleFilterClick(newFilter: string) {
     setActiveFilter((prev) => (newFilter === prev ? null : newFilter));
+  }
+
+  function handleFilterItemClick(author: string) {
+    dispatch(setFilter({ author: [author] }));
   }
 
   return (
