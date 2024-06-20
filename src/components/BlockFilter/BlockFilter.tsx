@@ -1,26 +1,27 @@
-import classNames from "classnames";
-import styles from "@components/BlockFilter/BlockFilter.module.css";
-import { useState, useEffect } from "react";
-import FilterItem from "@components/FilterItem/FilterItem";
-import { years } from "./data";
-import { useAppDispatch } from "@/hooks";
-import { setFilter } from "@/store/features/playlistSlice";
+import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
+import styles from './BlockFilter.module.css';
+import FilterItem from '../FilterItem/FilterItem';
+import { useAppDispatch } from '@/hooks';
+import { setFilter } from '@/store/features/playlistSlice';
 
-// Определяем тип для элементов фильтра
 type FilterItemType = {
   id: number;
   name: string;
 };
 
-type TrackData = {
-  author: string;
-  genre: string;
-};
-
-export default function BlockFilter() {
+const BlockFilter: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [authors, setAuthors] = useState<FilterItemType[]>([]);
   const [genres, setGenres] = useState<FilterItemType[]>([]);
+  const [years, setYears] = useState<FilterItemType[]>([
+    { id: 1, name: "По умолчанию" },
+    { id: 2, name: "Сначала новые" },
+    { id: 3, name: "Сначала старые" },
+  ]);
+  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedYear, setSelectedYear] = useState<string>("По умолчанию");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,13 +31,12 @@ export default function BlockFilter() {
         if (!res.ok) {
           throw new Error("Ошибка при получении данных");
         }
-        const data: TrackData[] = await res.json();
+        const data = await res.json();
 
         // Пример преобразования данных
         const authorSet = new Set<string>();
         const genreSet = new Set<string>();
-
-        data.forEach((item: TrackData) => {
+        data.forEach((item: { author: string; genre: string; }) => {
           authorSet.add(item.author);
           genreSet.add(item.genre);
         });
@@ -58,8 +58,35 @@ export default function BlockFilter() {
     setActiveFilter((prev) => (newFilter === prev ? null : newFilter));
   }
 
-  function handleFilterItemClick(author: string) {
-    dispatch(setFilter({ author: [author] }));
+  function handleFilterItemClick(filterType: string, name: string) {
+    switch (filterType) {
+      case 'author':
+        const updatedSelectedAuthors = selectedAuthors.includes(name)
+          ? selectedAuthors.filter((a) => a !== name)
+          : [...selectedAuthors, name];
+        setSelectedAuthors(updatedSelectedAuthors);
+        dispatch(setFilter({ author: updatedSelectedAuthors }));
+        break;
+      case 'genre':
+        const updatedSelectedGenres = selectedGenres.includes(name)
+          ? selectedGenres.filter((g) => g !== name)
+          : [...selectedGenres, name];
+        setSelectedGenres(updatedSelectedGenres);
+        dispatch(setFilter({ genre: updatedSelectedGenres }));
+        break;
+      case 'year':
+        setSelectedYear(name);
+        if (name === "По умолчанию") {
+          dispatch(setFilter({ order: "По умолчанию" }));
+        } else if (name === "Сначала новые") {
+          dispatch(setFilter({ order: "Сначала новые" }));
+        } else if (name === "Сначала старые") {
+          dispatch(setFilter({ order: "Сначала старые" }));
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   return (
@@ -68,66 +95,80 @@ export default function BlockFilter() {
       <div className={styles.filterWrapper}>
         <div
           onClick={() => handleFilterClick("author")}
-          className={`${
+          className={classNames(
             activeFilter === "author"
-              ? classNames(
-                  styles.filterButtonActive,
-                  styles.buttonAuthor,
-                  styles._btnTextActive
-                )
-              : classNames(
-                  styles.filterButton,
-                  styles.buttonAuthor,
-                  styles._btnText
-                )
-          } `}
+              ? styles.filterButtonActive
+              : styles.filterButton,
+            styles.buttonAuthor,
+            styles._btnText
+          )}
         >
-          Исполнителю
+          Исполнителю 
+          {selectedAuthors.length > 0 && (
+            <div className={styles.badge}>{selectedAuthors.length}</div>
+          )}
         </div>
-        {activeFilter === "author" ? <FilterItem FilterList={authors} /> : ""}
-      </div>
-      <div className={styles.filterWrapper}>
-        <div
-          onClick={() => handleFilterClick("year")}
-          className={`${
-            activeFilter === "year"
-              ? classNames(
-                  styles.filterButtonActive,
-                  styles.buttonYear,
-                  styles._btnTextActive
-                )
-              : classNames(
-                  styles.filterButton,
-                  styles.buttonYear,
-                  styles._btnText
-                )
-          } `}
-        >
-          Году выпуска
-        </div>
-        {activeFilter === "year" ? <FilterItem FilterList={years} /> : ""}
+        {activeFilter === "author" && (
+          <FilterItem
+            FilterList={authors}
+            selectedFilters={selectedAuthors}
+            filterType="author"
+            onItemClick={(name) => handleFilterItemClick("author", name)}
+          />
+        )}
       </div>
       <div className={styles.filterWrapper}>
         <div
           onClick={() => handleFilterClick("genre")}
-          className={`${
+          className={classNames(
             activeFilter === "genre"
-              ? classNames(
-                  styles.filterButtonActive,
-                  styles.buttonGenre,
-                  styles._btnTextActive
-                )
-              : classNames(
-                  styles.filterButton,
-                  styles.buttonGenre,
-                  styles._btnText
-                )
-          } `}
+              ? styles.filterButtonActive
+              : styles.filterButton,
+            styles.buttonGenre,
+            styles._btnText
+          )}
         >
-          Жанру
+          Жанру 
+          {selectedGenres.length > 0 && (
+            <div className={styles.badge}>{selectedGenres.length}</div>
+          )}
         </div>
-        {activeFilter === "genre" ? <FilterItem FilterList={genres} /> : ""}
+        {activeFilter === "genre" && (
+          <FilterItem
+            FilterList={genres}
+            selectedFilters={selectedGenres}
+            filterType="genre"
+            onItemClick={(name) => handleFilterItemClick("genre", name)}
+          />
+        )}
+      </div>
+      <div className={styles.filterWrapper}>
+        <div
+          onClick={() => handleFilterClick("year")}
+          className={classNames(
+            activeFilter === "year"
+              ? styles.filterButtonActive
+              : styles.filterButton,
+            styles.buttonYear,
+            styles._btnText
+          )}
+        >
+          Году выпуска 
+          {selectedYear !== "По умолчанию" && (
+            <div className={styles.badge}>{selectedYear}</div>
+          )}
+        </div>
+        {activeFilter === "year" && (
+          <FilterItem
+            FilterList={years}
+            selectedFilters={[selectedYear]}
+            filterType="year"
+            onItemClick={(name) => handleFilterItemClick("year", name)}
+          />
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default BlockFilter;

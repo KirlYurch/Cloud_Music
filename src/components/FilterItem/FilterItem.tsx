@@ -1,34 +1,30 @@
-import styles from "@components/FilterItem/FilterItem.module.css";
-import { useAppDispatch } from "@/hooks";
-import { setFilter } from "@/store/features/playlistSlice";
-import { useState } from "react";
+import React from 'react';
+import classNames from 'classnames';
+import styles from './FilterItem.module.css';
 
-type FilterList = { id: number, name: string };
-type FilterItemProps = {
-  FilterList: FilterList[]
+type FilterItemType = {
+  id: number;
+  name: string;
 };
 
-export default function FilterItem({ FilterList }: FilterItemProps) {
-  const dispatch = useAppDispatch();
-  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
+type FilterItemProps = {
+  FilterList: FilterItemType[];
+  selectedFilters: string[];
+  filterType: string;
+  onItemClick: (name: string) => void;
+};
 
-  function handleItemClick(name: string) {
-    const updatedSelectedAuthors = selectedAuthors.includes(name)
-      ? selectedAuthors.filter(author => author !== name)
-      : [...selectedAuthors, name];
-    
-    setSelectedAuthors(updatedSelectedAuthors);
-    dispatch(setFilter({ author: updatedSelectedAuthors }));
-  }
-
+const FilterItem: React.FC<FilterItemProps> = ({ FilterList, selectedFilters, filterType, onItemClick }) => {
   return (
     <div className={styles.filterWrapper}>
       <ul className={styles.filterList}>
-        {FilterList?.map((item) => (
-          <li 
-            className={`${styles.li} ${selectedAuthors.includes(item.name) ? styles.selected : ""}`} 
+        {FilterList.map((item) => (
+          <li
             key={item.id}
-            onClick={() => handleItemClick(item.name)}
+            className={classNames(styles.li, {
+              [styles.selected]: selectedFilters.includes(item.name),
+            })}
+            onClick={() => onItemClick(item.name)}
           >
             {item.name}
           </li>
@@ -36,4 +32,6 @@ export default function FilterItem({ FilterList }: FilterItemProps) {
       </ul>
     </div>
   );
-}
+};
+
+export default FilterItem;
