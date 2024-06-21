@@ -1,13 +1,11 @@
-"use client";
-import classNames from "classnames";
-import styles from "@components/ContentPlayList/ContentPlayList.module.css";
-import PlayListItem from "@components/PlayListItem/PlayListItem";
-import { trackType } from "@/types";
-import { useEffect, useState } from "react";
-import { getTracks } from "@/api/tracks";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setPlaylist } from "@/store/features/playlistSlice";
+import { setFilter, setPlaylist } from "@/store/features/playlistSlice";
+import { getTracks } from "@/api/tracks";
+import { trackType } from "@/types";
 import { RootState } from "@/store/store";
+import PlayListItem from "@components/PlayListItem/PlayListItem";
+
 export default function ContentPlayList() {
   const dispatch = useAppDispatch();
 
@@ -32,26 +30,34 @@ export default function ContentPlayList() {
     (state: RootState) => state.playlist.filterPlaylist
   );
 
+  // useCallback для функции сортировки треков
+  const sortTracks = useCallback((order: string) => {
+    dispatch(setFilter({ order }));
+  }, [dispatch]);
+
+  // useMemo для мемоизации отфильтрованного плейлиста
+  const memoizedPlaylist = useMemo(() => filterPlaylist, [filterPlaylist]);
+
   if (isLoading) {
     return (
-      <div className={styles.loadingMessage}>
+      <div className="loadingMessage">
         Загрузка треков...
         <use href="https://tenor.com/ru/view/cat-jam-dance-cute-head-shaking-gif-17955335" />
       </div>
     );
   }
   return (
-    <div className={classNames(styles.contentPlaylist, styles.playlist)}>
-      {filterPlaylist.length > 0 ? (
-        filterPlaylist.map((track) => (
+    <div className="contentPlaylist playlist">
+      {memoizedPlaylist.length > 0 ? (
+        memoizedPlaylist.map((track) => (
           <PlayListItem
             key={track.id}
             track={track}
-            playlist={filterPlaylist}
+            playlist={memoizedPlaylist}
           />
         ))
       ) : (
-        <div className={styles.noTracksMessage}>Треки не найдены</div>
+        <div className="noTracksMessage">Треки не найдены</div>
       )}
     </div>
   );
