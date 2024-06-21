@@ -1,5 +1,5 @@
-import { trackType } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { trackType } from "@/types";
 
 type PlaylistStateType = {
   playlist: trackType[];
@@ -44,12 +44,8 @@ const playlistSlice = createSlice({
       state.currentTrack = action.payload.currentTrack;
     },
     nextTrack: (state) => {
-      const playlist = state.isShuffled
-        ? state.shuffledPlaylist
-        : state.playlist;
-      const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
-      );
+      const playlist = state.isShuffled ? state.shuffledPlaylist : state.playlist;
+      const currentTrackIndex = playlist.findIndex((track) => track.id === state.currentTrack?.id);
       const newTrack = currentTrackIndex + 1;
       if (playlist[newTrack]) {
         state.currentTrack = playlist[newTrack];
@@ -57,12 +53,8 @@ const playlistSlice = createSlice({
       state.isPlaying = true;
     },
     prevTrack: (state) => {
-      const playlist = state.isShuffled
-        ? state.shuffledPlaylist
-        : state.playlist;
-      const currentTrackIndex = playlist.findIndex(
-        (track) => track.id === state.currentTrack?.id
-      );
+      const playlist = state.isShuffled ? state.shuffledPlaylist : state.playlist;
+      const currentTrackIndex = playlist.findIndex((track) => track.id === state.currentTrack?.id);
       const newTrack = currentTrackIndex - 1;
       if (playlist[newTrack]) {
         state.currentTrack = playlist[newTrack];
@@ -106,49 +98,47 @@ const playlistSlice = createSlice({
             : state.filterOptions.searchString,
       };
 
-      // Если строка поиска пуста, сбрасываем фильтрованный плейлист
-      if (
-        state.filterOptions.searchString === "" &&
-        state.filterOptions.author.length === 0 &&
-        state.filterOptions.genre.length === 0
-      ) {
-        state.filterPlaylist = state.playlist;
-        return;
+      let filterTracks = [...state.playlist];
+
+      // Применяем фильтрацию по исполнителям
+      if (state.filterOptions.author.length > 0) {
+        filterTracks = filterTracks.filter((track) =>
+          state.filterOptions.author.includes(track.author)
+        );
       }
 
-      const filterTracks = [...state.playlist].filter((track) => {
-        const hasSearchString = track.name
-          .toLowerCase()
-          .includes(state.filterOptions.searchString.toLowerCase());
-        const hasAuthor =
-          state.filterOptions.author.length > 0
-            ? state.filterOptions.author.includes(track.author)
-            : true;
-        const hasGenre =
-          state.filterOptions.genre.length > 0
-            ? state.filterOptions.genre.includes(track.genre)
-            : true;
-        return hasSearchString && hasAuthor && hasGenre;
-      });
-
-      switch (state.filterOptions.order) {
-        case "Сначала новые":
-          filterTracks.sort(
-            (a, b) =>
-              new Date(b.release_date).getTime() -
-              new Date(a.release_date).getTime()
-          );
-          break;
-        case "Сначала старые":
-          filterTracks.sort(
-            (a, b) =>
-              new Date(a.release_date).getTime() -
-              new Date(b.release_date).getTime()
-          );
-          break;
-        default:
-          filterTracks.sort((a, b) => a.id - b.id);
+      // Применяем фильтрацию по жанрам
+      if (state.filterOptions.genre.length > 0) {
+        filterTracks = filterTracks.filter((track) =>
+          state.filterOptions.genre.includes(track.genre)
+        );
       }
+
+      // Применяем сортировку по дате релиза в зависимости от выбранного порядка
+      if (state.filterOptions.order !== "По умолчанию") {
+        filterTracks.sort((a, b) => {
+          const dateA = new Date(a.release_date).getTime();
+          const dateB = new Date(b.release_date).getTime();
+          if (state.filterOptions.order === "Сначала новые") {
+            return dateB - dateA;
+          } else if (state.filterOptions.order === "Сначала старые") {
+            return dateA - dateB;
+          }
+          return 0;
+        });
+      }
+
+      // Применяем фильтрацию по строке поиска
+      if (state.filterOptions.searchString) {
+        const searchLower = state.filterOptions.searchString.toLowerCase();
+        filterTracks = filterTracks.filter(
+          (track) =>
+            track.name.toLowerCase().includes(searchLower) ||
+            track.author.toLowerCase().includes(searchLower) ||
+            track.genre.toLowerCase().includes(searchLower)
+        );
+      }
+
       state.filterPlaylist = filterTracks;
     },
   },
@@ -164,4 +154,5 @@ export const {
   setFilter,
   setPlaylist,
 } = playlistSlice.actions;
+
 export const playlistReducer = playlistSlice.reducer;
