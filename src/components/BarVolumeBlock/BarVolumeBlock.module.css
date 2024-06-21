@@ -7,6 +7,7 @@
     -ms-flex-align: center;
     align-items: center;
     padding: 0 92px 0 0;
+    
   }
 
   .volumeContent {
@@ -43,4 +44,5 @@
   
   .volumeProgressLine {
     width: 109px;
+    cursor: pointer;
   }

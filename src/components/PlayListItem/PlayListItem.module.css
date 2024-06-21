@@ -1,0 +1,153 @@
+.playlistItem {
+  width: 100%;
+  display: block;
+  margin-top: 3px;
+  margin-bottom: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  transition: all 0.3s ease;
+  padding-right: 15px;
+  border-radius: 3px;
+}
+
+.playlistItem:hover {
+  box-shadow: 0 0 5px 2px #2c2c2c;
+  cursor: pointer;
+}
+
+.activeTrack {
+  box-shadow: 0 0 5px 2px #464646;
+}
+
+.playlistTrack {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trackTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 447px;
+  color: #ffffff;
+}
+
+.trackTitleImage {
+  width: 51px;
+  height: 51px;
+  padding: 16px;
+  background: #313131;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 17px;
+  fill: transparent;
+}
+
+.trackTitleSvg {
+  width: 18px;
+  height: 17px;
+  fill: transparent;
+  stroke: #4e4e4e;
+}
+
+.trackTitleLink {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+}
+
+.trackTitleSpan {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #4e4e4e;
+}
+
+.trackAuthor {
+  width: 321px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.trackAuthorLink {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  text-align: left;
+}
+
+.trackAlbum {
+  width: 245px;
+}
+
+.trackAlbumLink {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #696969;
+}
+
+.trackTimeSvg {
+  width: 14px;
+  height: 12px;
+  margin-right: 17px;
+  fill: transparent;
+  stroke: #696969;
+}
+
+.trackTimeText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: right;
+  color: #696969;
+}
+
+.trackTitleText {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: right;
+  color: #ffffff;
+}
+
+.trackTitleLink {
+  color: #ffffff;
+}
+
+.trackTime {
+  display: flex;
+  align-items: center;
+}
+
+.trackImagePlaying {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: rgb(142, 11, 218);
+}
+
+@keyframes trackAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.4;
+  }
+}
+
+.trackAnimation {
+  animation: trackAnimation ease-in-out 1s infinite;
+}

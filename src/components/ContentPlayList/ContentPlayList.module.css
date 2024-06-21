@@ -6,7 +6,7 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    overflow-y: auto;
+    
   }
 
   .playlistItem {
@@ -150,4 +150,8 @@
   .trackTime {
     display: flex;
     align-items: center;
+  }
+
+  .loadingMessage {
+    font-size: 20px;
   }

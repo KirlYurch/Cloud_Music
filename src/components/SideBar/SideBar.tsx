@@ -7,7 +7,7 @@ export default function SideBar() {
         
         <div className={classNames(styles.mainSidebar, styles.sidebar)}>
         <div className={styles.sidebarPersonal}>
-            <p className={styles.sidebarPersonalName}> <a href="http:/not-found">Sergey.Ivanov</a></p>
+            <p className={styles.sidebarPersonalName}> <a className={styles.linkPersonalName} href="http:/not-found" >Sergey.Ivanov</a></p>
             <div className={styles.sidebarIcon}>
                 <svg>
                     <use href="/image/icon/sprite.svg#logout" />
