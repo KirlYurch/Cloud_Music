@@ -31,9 +31,12 @@ export default function ContentPlayList() {
   );
 
   // useCallback для функции сортировки треков
-  const sortTracks = useCallback((order: string) => {
-    dispatch(setFilter({ order }));
-  }, [dispatch]);
+  const sortTracks = useCallback(
+    (order: string) => {
+      dispatch(setFilter({ order }));
+    },
+    [dispatch]
+  );
 
   // useMemo для мемоизации отфильтрованного плейлиста
   const memoizedPlaylist = useMemo(() => filterPlaylist, [filterPlaylist]);
@@ -42,7 +45,6 @@ export default function ContentPlayList() {
     return (
       <div className="loadingMessage">
         Загрузка треков...
-        <use href="https://tenor.com/ru/view/cat-jam-dance-cute-head-shaking-gif-17955335" />
       </div>
     );
   }

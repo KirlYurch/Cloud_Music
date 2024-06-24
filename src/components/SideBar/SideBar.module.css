@@ -29,9 +29,14 @@
   margin-right: 16px;
 }
 .linkPersonalName {
+  display: flex;
+  flex-direction: row;
+    align-content: center;
+    align-items: center;
   font-family: inherit;
   color: #ffffff;
   text-decoration: underline;
+  margin-top: 20px;
 }
 
 .sidebarIcon {
