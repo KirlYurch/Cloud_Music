@@ -28,6 +28,7 @@ const Category = ({ params }: CategoryProps) => {
         console.log(err.message);
       });
   }, [dispatch, params.id]);
+
   let title = "";
   switch (params.id) {
     case "1":
@@ -47,64 +48,79 @@ const Category = ({ params }: CategoryProps) => {
       <div className={styles.container}>
         <main className={styles.main}>
           <Nav />
-          <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
+          <div
+            className={classNames(styles.mainCenterblock, styles.centerblock)}
+          >
             <div className={styles.qwe}>
-      <div className={classNames(styles.centerblockSearch, styles.search)}>
-        <svg className={styles.searchSvg}>
-          <use href="/image/icon/sprite.svg#icon-search" />
-        </svg>
-        <input
-          className={styles.searchText}
-          type="search"
-          placeholder="Поиск"
-          name="search"
-          onChange={(ev) => {
-            dispatch(setFilter({ searchString: ev.target.value }));
-          }}
-        />
-      </div>
-      <div className={classNames(styles.mainSidebar, styles.sidebar)}>
-            <div className={styles.sidebarPersonal}>
-            <Link  className={styles.linkPersonalName} href="../not-found">
-                <p className={styles.sidebarPersonalName}>
-                   Sergey.Ivanov 
-                </p>
-                <div className={styles.sidebarIcon}>
-                    <svg>
+              <div
+                className={classNames(styles.centerblockSearch, styles.search)}
+              >
+                <svg className={styles.searchSvg}>
+                  <use href="/image/icon/sprite.svg#icon-search" />
+                </svg>
+                <input
+                  className={styles.searchText}
+                  type="search"
+                  placeholder="Поиск"
+                  name="search"
+                  onChange={(ev) => {
+                    dispatch(setFilter({ searchString: ev.target.value }));
+                  }}
+                />
+              </div>
+              <div className={classNames(styles.mainSidebar, styles.sidebar)}>
+                <div className={styles.sidebarPersonal}>
+                  <Link className={styles.linkPersonalName} href="../not-found">
+                    <p className={styles.sidebarPersonalName}>Sergey.Ivanov</p>
+                    <div className={styles.sidebarIcon}>
+                      <svg>
                         <use href="/image/icon/sprite.svg#logout" />
-                    </svg>
+                      </svg>
+                    </div>
+                  </Link>
                 </div>
-                </Link>
+              </div>
             </div>
-        </div>
-        </div>
-      <h2 className={styles.heading}>{title}</h2>
-      <div
-        className={classNames(
-          styles.centerblockContent,
-          styles.playlistContent
-        )}
-      >
-        <div className={classNames(styles.contentTitle, styles.playlistTitle)}>
-          <div className={classNames(styles.playlistTitleCol, styles.col01)}>
-            Трек
-          </div>
-          <div className={classNames(styles.playlistTitleCol, styles.col02)}>
-            Исполнитель
-          </div>
-          <div className={classNames(styles.playlistTitleCol, styles.col03)}>
-            Альбом
-          </div>
-          <div className={classNames(styles.playlistTitleCol, styles.col04)}>
-            <svg className={styles.playlistTitleSvg}>
-              <use href="/image/icon/sprite.svg#icon-watch" />
-            </svg>
-          </div>
-        </div>
+            <h2 className={styles.heading}>{title}</h2>
+            <div
+              className={classNames(
+                styles.centerblockContent,
+                styles.playlistContent
+              )}
+            >
+              <div
+                className={classNames(
+                  styles.contentTitle,
+                  styles.playlistTitle
+                )}
+              >
+                <div
+                  className={classNames(styles.playlistTitleCol, styles.col01)}
+                >
+                  Трек
+                </div>
+                <div
+                  className={classNames(styles.playlistTitleCol, styles.col02)}
+                >
+                  Исполнитель
+                </div>
+                <div
+                  className={classNames(styles.playlistTitleCol, styles.col03)}
+                >
+                  Альбом
+                </div>
+                <div
+                  className={classNames(styles.playlistTitleCol, styles.col04)}
+                >
+                  <svg className={styles.playlistTitleSvg}>
+                    <use href="/image/icon/sprite.svg#icon-watch" />
+                  </svg>
+                </div>
+              </div>
 
-        <ContentPlayList />
-      </div>
-    </div>
+              <ContentPlayList />
+            </div>
+          </div>
         </main>
         <Bar />
       </div>
