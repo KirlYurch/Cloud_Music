@@ -6,24 +6,18 @@ import { trackType } from "@/types";
 import { RootState } from "@/store/store";
 import PlayListItem from "@components/PlayListItem/PlayListItem";
 
-export default function ContentPlayList() {
+type ContentPlayListProps = {
+  tracks: trackType[];
+  isLoading: boolean;
+  error: string | null;
+};
+
+export default function ContentPlayList({ tracks, isLoading, error }: ContentPlayListProps) {
   const dispatch = useAppDispatch();
 
-  // Состояние для загрузки
-  const [isLoading, setIsLoading] = useState(true);
-
-  // получаем треки из API
-  const [trackList, setTrackList] = useState<trackType[]>([]);
   useEffect(() => {
-    getTracks().then((data) => {
-      setTrackList(data);
-      setIsLoading(false); // Устанавливаем isLoading в false после загрузки треков
-    });
-  }, []);
-
-  useEffect(() => {
-    dispatch(setPlaylist({ tracks: trackList }));
-  }, [dispatch, trackList]);
+    dispatch(setPlaylist({ tracks }));
+  }, [dispatch, tracks]);
 
   // получаем отфильтрованный плейлист из Redux
   const filterPlaylist = useAppSelector(
@@ -48,6 +42,11 @@ export default function ContentPlayList() {
       </div>
     );
   }
+
+  if (error) {
+    return <div className="errorMessage">{error}</div>;
+  }
+
   return (
     <div className="contentPlaylist playlist">
       {memoizedPlaylist.length > 0 ? (

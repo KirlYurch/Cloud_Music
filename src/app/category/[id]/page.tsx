@@ -10,22 +10,30 @@ import Nav from "@components/Nav/Nav";
 import ContentPlayList from "@components/ContentPlayList/ContentPlayList";
 import Bar from "@components/Bar/Bar";
 import Link from "next/link";
+import { trackType } from "@/types";
 
 type CategoryProps = {
   params: {
     id: string;
   };
 };
+
 const Category = ({ params }: CategoryProps) => {
   const dispatch = useAppDispatch();
+  const [categoryTracks, setCategoryTracks] = useState<trackType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     playlistCategory(params.id)
       .then((response) => {
-        console.log(response);
+        setCategoryTracks(response.items);
         dispatch(setPlaylist({ tracks: response.items }));
+        setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err.message);
+        setError("Ошибка при загрузке треков");
+        setIsLoading(false);
       });
   }, [dispatch, params.id]);
 
@@ -118,7 +126,7 @@ const Category = ({ params }: CategoryProps) => {
                 </div>
               </div>
 
-              <ContentPlayList />
+              <ContentPlayList tracks={categoryTracks} isLoading={isLoading} error={error} />
             </div>
           </div>
         </main>
