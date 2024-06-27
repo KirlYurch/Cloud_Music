@@ -12,7 +12,11 @@ type ContentPlayListProps = {
   error: string | null;
 };
 
-export default function ContentPlayList({ tracks, isLoading, error }: ContentPlayListProps) {
+export default function ContentPlayList({
+  tracks,
+  isLoading,
+  error,
+}: ContentPlayListProps) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -36,11 +40,7 @@ export default function ContentPlayList({ tracks, isLoading, error }: ContentPla
   const memoizedPlaylist = useMemo(() => filterPlaylist, [filterPlaylist]);
 
   if (isLoading) {
-    return (
-      <div className="loadingMessage">
-        Загрузка треков...
-      </div>
-    );
+    return <div className="loadingMessage">Загрузка треков...</div>;
   }
 
   if (error) {
