@@ -27,14 +27,6 @@ export default function Main() {
   }, []);
 
   return (
-    <>
-      <main className={styles.main}>
-        <Nav />
         <CenterBlock tracks={tracks} isLoading={isLoading} error={error}/>
-        <SideBar />
-      </main>
-      <Bar />
-      <footer className={styles.footer} />
-    </>
   );
 }

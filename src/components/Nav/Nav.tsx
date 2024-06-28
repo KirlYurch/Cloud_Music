@@ -23,6 +23,7 @@ export default function Nav() {
     return (
         <nav className={classNames(styles.mainNav, styles.nav)}>
             <div className={classNames(styles.navLogo, styles.logo)}>
+            <Link href="/" className={styles.menuHome}>
                 <Image
                     alt="Логотип"
                     width={113}
@@ -30,6 +31,7 @@ export default function Nav() {
                     className={styles.logoImage}
                     src="/image/logo.png"
                 />
+                 </Link>
             </div>
             <div
                 onClick={togglePopUp}
@@ -54,7 +56,7 @@ export default function Nav() {
                         </Link>
                     </li>
                     <li className={styles.menuItem}>
-                        <Link href="/myplaylist" className={styles.menuLink}>
+                        <Link href="../not-found" className={styles.menuLink}>
                             Мой плейлист
                         </Link>
                     </li>

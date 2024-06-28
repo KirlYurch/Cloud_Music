@@ -1,38 +1,5 @@
-.wrapper {
-  width: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  background-color: #383838;
-}
 
-.container {
-  max-width: 1920px;
-  height: 100vh;
-  margin: 0 auto;
-  position: relative;
-  background-color: #181818;
-}
 
-.main {
-  -webkit-box-flex: 1;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding-right: 200px;
-}
-
-.mainCenterblock {
-  width: auto;
-  -webkit-box-flex: 3;
-  -ms-flex-positive: 3;
-  flex-grow: 3;
-  padding: 20px 40px 20px 250px;
-}
 .heading {
   font-style: normal;
   font-weight: 400;
@@ -157,15 +124,7 @@
   line-height: 24px;
 }
 
-.qwe {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: space-between;
-  align-items: center;
-  gap: 100px;
-}
+
 .sidebarPersonal {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -233,14 +192,14 @@
   text-transform: uppercase;
 }
 .col01 {
-  padding-right: 480px;
+  padding-right: 410px;
 }
 .col02 {
-  padding-right: 260px;
+  padding-right: 185px;
 }
 
-.col04 {
-  padding-left: 290px;
+.col03 {
+  padding-right: 230px;
 }
 .playlistTitleSvg {
   width: 12px;
