@@ -11,10 +11,21 @@ export type trackType = {
     stared_user: Array<userType>
 }
 
-type userType = {
+export type userType = {
     id: number,
     username: string,
     first_name: string;
     last_name: string;
     email: string;
 }
+
+export type SignInFormType = {
+    email: string;
+    password: string;
+}
+
+export type SignUpFormType = {
+    email: string;
+    password: string;
+    username: string;
+  };
