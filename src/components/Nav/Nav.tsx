@@ -56,7 +56,7 @@ export default function Nav() {
                         </Link>
                     </li>
                     <li className={styles.menuItem}>
-                        <Link href="../not-found" className={styles.menuLink}>
+                        <Link href="../favorite" className={styles.menuLink}>
                             Мой плейлист
                         </Link>
                     </li>

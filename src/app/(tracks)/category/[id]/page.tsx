@@ -5,11 +5,7 @@ import classNames from "classnames";
 import styles from "./page.module.css";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "@/hooks";
-
-import Nav from "@components/Nav/Nav";
 import ContentPlayList from "@components/ContentPlayList/ContentPlayList";
-import Bar from "@components/Bar/Bar";
-import Link from "next/link";
 import { trackType } from "@/types";
 
 type CategoryProps = {
