@@ -9,7 +9,7 @@ import ContentPlayList from "@components/ContentPlayList/ContentPlayList";
 
 export default function FavoriteTrackPage() {
   const tracks = useAppSelector((state) => state.playlist.likedTracks);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   return (

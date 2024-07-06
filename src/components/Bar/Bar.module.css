@@ -325,3 +325,18 @@
 .volumeProgressLine {
   width: 109px;
 }
+
+.trackTimeSvg {
+  width: 14px;
+  height: 12px;
+  margin-right: 17px;
+  fill: transparent;
+  stroke: #696969;
+}
+
+.trackTimeSvgLiked {
+  width: 14px;
+  height: 12px;
+  fill: #b672ff;
+  stroke: #696969;
+}

@@ -151,3 +151,10 @@
 .trackAnimation {
   animation: trackAnimation ease-in-out 1s infinite;
 }
+
+.trackTimeSvgLiked {
+  width: 14px;
+  height: 12px;
+  fill: #b672ff;
+  stroke: #696969;
+}

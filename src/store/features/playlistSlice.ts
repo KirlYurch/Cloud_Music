@@ -23,7 +23,7 @@ type PlaylistStateType = {
     searchString: string;
   };
   filterPlaylist: trackType[];
-  likedTracks: number[];
+  likedTracks: trackType[];
 }; 
 
 type SetCurrentTrackType = {
@@ -152,12 +152,12 @@ const playlistSlice = createSlice({
 
       state.filterPlaylist = filterTracks;
     },
-    likeTrack: (state, action: PayloadAction<{ id: number }>) => {
-      state.likedTracks.push(action.payload.id);
+    likeTrack: (state, action: PayloadAction<trackType>) => {
+      state.likedTracks.push(action.payload);
     },
-    dislikeTrack: (state, action: PayloadAction<{ id: number }>) => {
+    disLikeTrack: (state, action: PayloadAction<trackType>) => {
       state.likedTracks = state.likedTracks.filter(
-        (el) => el !== action.payload.id
+        (el) => el.id !== action.payload.id
       );
     },
   },
@@ -165,7 +165,7 @@ const playlistSlice = createSlice({
     builder.addCase(
       getFavoriteTracks.fulfilled,
       (state, action: PayloadAction<trackType[]>) => {
-        state.likedTracks = action.payload.map((el) => el.id);
+        state.likedTracks = action.payload;
       }
     );
   },
@@ -181,7 +181,7 @@ export const {
   setFilter,
   setPlaylist,
   likeTrack,
-  dislikeTrack,
+  disLikeTrack,
 } = playlistSlice.actions;
 
 export const playlistReducer = playlistSlice.reducer;

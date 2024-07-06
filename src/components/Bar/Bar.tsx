@@ -13,8 +13,7 @@ import {
   setPlay,
   setShuffle,
 } from "@/store/features/playlistSlice";
-import BarLikeBlock from "@components/BarLikeBlock/BarLikeBlock";
-import { useLikedTracks } from "@/likes";
+import { useLikeTrack } from "@/likes";
 
 export default function Bar() {
   const { currentTrack, isPlaying, isShuffled } = useAppSelector(
@@ -27,7 +26,7 @@ export default function Bar() {
   const [currentTime, setCurrentTime] = useState(0);
   const [isLoop, setIsLoop] = useState(false);
 
-  const { isLiked, handleLike } = useLikedTracks(currentTrack ?? { track: null });
+  const { isLiked, handleLike } = useLikeTrack(currentTrack);
   
   useEffect(() => {
     dispatch(setPlay());
@@ -219,15 +218,13 @@ export default function Bar() {
                       )}
                     >
                       <svg
-                        className={styles.trackPlayLikeSvg}
-                        onClick={handleLike}
-                      >
-                        {isLiked ? (
-                          <use href="/image/icon/sprite.svg#icon-like" />
-                        ) : (
-                          <use href="/image/icon/sprite.svg#icon-dislike" />
-                        )}
-                      </svg>
+            className={classNames(styles.trackTimeSvg, {
+              [styles.trackTimeSvgLiked]: isLiked,
+            })}
+            onClick={handleLike}
+          >
+            <use href="/image/icon/sprite.svg#icon-like" />
+          </svg>
                     </div>
 
 

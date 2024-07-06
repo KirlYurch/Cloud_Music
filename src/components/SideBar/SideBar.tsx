@@ -3,12 +3,19 @@ import classNames from "classnames";
 import Image from "next/image";
 import styles from "@components/SideBar/SideBar.module.css";
 import Link from "next/link";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useInitializeLikedTracks } from "@/likes";
+import { logout } from "@/store/features/authSlice";
 
 export default function SideBar() {
+  const dispatch = useAppDispatch();
   const userName = useAppSelector((state) => state.auth.user?.username);
   useInitializeLikedTracks();
+
+  const exitLogout = () => {
+    dispatch(logout());
+  };
+  
   return (
     <div className={classNames(styles.mainSidebar, styles.sidebar)}>
       <div className={styles.sidebarPersonal}>
@@ -16,7 +23,7 @@ export default function SideBar() {
           <>
             <p className={styles.sidebarPersonalName}>{userName}</p>
             <Link className={styles.linkPersonalName} href="../signin">
-              <div className={styles.sidebarIcon}>
+              <div className={styles.sidebarIcon} onClick={exitLogout} >
                 <svg>
                   <use href="/image/icon/sprite.svg#logout" />
                 </svg>
