@@ -2,7 +2,7 @@ import { SignUpFormType, SignInFormType } from "@/types";
 
 export async function fetchUser({ email, password }: SignInFormType) {
   const response = await fetch(
-    "https://skypro-music-api.skyeng.tech/user/login/",
+    "https://webdev-music-003b5b991590.herokuapp.com/user/login/",
     {
       method: "POST",
       body: JSON.stringify({
@@ -29,7 +29,7 @@ export async function fetchUser({ email, password }: SignInFormType) {
 
 export async function fetchTokens({ email, password }: SignInFormType) {
   const response = await fetch(
-    "https://skypro-music-api.skyeng.tech/user/token/",
+    "https://webdev-music-003b5b991590.herokuapp.com/user/token/",
     {
       method: "POST",
       body: JSON.stringify({
@@ -51,7 +51,7 @@ export async function fetchTokens({ email, password }: SignInFormType) {
 
 export async function authorize({ email, password, username }: SignUpFormType) {
   const response = await fetch(
-    "https://skypro-music-api.skyeng.tech/user/signup/",
+    "https://webdev-music-003b5b991590.herokuapp.com/user/signup/",
     {
       method: "POST",
       body: JSON.stringify({

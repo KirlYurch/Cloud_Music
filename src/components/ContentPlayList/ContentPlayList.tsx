@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setFilter, setPlaylist } from "@/store/features/playlistSlice";
-import { getTracks } from "@/api/tracks";
 import { trackType } from "@/types";
 import { RootState } from "@/store/store";
 import PlayListItem from "@components/PlayListItem/PlayListItem";
@@ -52,7 +51,7 @@ export default function ContentPlayList({
       {memoizedPlaylist.length > 0 ? (
         memoizedPlaylist.map((track) => (
           <PlayListItem
-            key={track.id}
+            key={track._id}
             track={track}
             playlist={memoizedPlaylist}
           />

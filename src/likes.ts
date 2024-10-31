@@ -19,23 +19,24 @@ export function useInitializeLikedTracks() {
   }, [tokens, dispatch]);
 }
 
-export const useLikeTrack = (track: trackType ) => {
+export const useLikeTrack = (track: trackType) => {
   const dispatch = useAppDispatch();
   const likedTracks = useAppSelector((state) => state.playlist.likedTracks);
-  const isLiked = !!likedTracks.find((t) => t.id === track?.id);
+
+  console.log(track);
+  const isLiked = likedTracks.some((t) => t._id === track?._id);
+
   const tokens = useAppSelector((state) => state.auth.tokens);
-  const handleLike = async (
-    
-     e: React.MouseEvent<SVGSVGElement, MouseEvent>
-  ) => {
-     e.stopPropagation();
+
+  const handleLike = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.stopPropagation();
     if (!tokens.access) {
       return alert("Необходимо авторизоваться");
     }
-    const action = isLiked ? favoriteTracks : deleteFavoriteTracks;
-    console.log(isLiked)
+    const action = !isLiked ? favoriteTracks : deleteFavoriteTracks;
+    console.log(isLiked);
     try {
-      await action(tokens.access, track.id);
+      await action(tokens.access, track._id);
       isLiked ? dispatch(disLikeTrack(track)) : dispatch(likeTrack(track));
     } catch (error) {
       console.error(error);

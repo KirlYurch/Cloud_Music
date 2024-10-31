@@ -4,34 +4,35 @@ import { setFilter, setPlaylist } from "@/store/features/playlistSlice";
 import classNames from "classnames";
 import styles from "./page.module.css";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import ContentPlayList from "@components/ContentPlayList/ContentPlayList";
 import { trackType } from "@/types";
+import { useParams } from "next/navigation";
 
-type CategoryProps = {
-  params: {
-    id: string;
-  };
-};
-
-const Category = ({ params }: CategoryProps) => {
+const Category = () => {
   const dispatch = useAppDispatch();
   const [categoryTracks, setCategoryTracks] = useState<trackType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const params = useParams();
+
+  const { allTracks } = useAppSelector((state) => state.playlist);
 
   useEffect(() => {
     playlistCategory(params.id)
       .then((response) => {
-        setCategoryTracks(response.items);
-        dispatch(setPlaylist({ tracks: response.items }));
+        const tracks = allTracks.filter((el) =>
+          response.data.items.includes(el._id)
+        );
+        setCategoryTracks(tracks);
+        dispatch(setPlaylist({ tracks }));
         setIsLoading(false);
       })
       .catch((err) => {
         setError("Ошибка при загрузке треков");
         setIsLoading(false);
       });
-  }, [dispatch, params.id]);
+  }, [dispatch]);
 
   let title = "";
   switch (params.id) {
@@ -49,20 +50,20 @@ const Category = ({ params }: CategoryProps) => {
   }
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
-        <div className={classNames(styles.centerblockSearch, styles.search)}>
-          <svg className={styles.searchSvg}>
-            <use href="/image/icon/sprite.svg#icon-search" />
-          </svg>
-          <input
-            className={styles.searchText}
-            type="search"
-            placeholder="Поиск"
-            name="search"
-            onChange={(ev) => {
-              dispatch(setFilter({ searchString: ev.target.value }));
-            }}
-          />
-        </div>
+      <div className={classNames(styles.centerblockSearch, styles.search)}>
+        <svg className={styles.searchSvg}>
+          <use href="/image/icon/sprite.svg#icon-search" />
+        </svg>
+        <input
+          className={styles.searchText}
+          type="search"
+          placeholder="Поиск"
+          name="search"
+          onChange={(ev) => {
+            dispatch(setFilter({ searchString: ev.target.value }));
+          }}
+        />
+      </div>
       <h2 className={styles.heading}>{title}</h2>
       <div
         className={classNames(

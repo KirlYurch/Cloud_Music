@@ -1,9 +1,9 @@
 export type trackType = {
-    id: number,
+    _id: number,
     name: string,
     author: string,
     release_date: string,
-    genre: string,
+    genre: string[],
     duration_in_seconds: number,
     album: string,
     logo: null | string,
@@ -12,7 +12,7 @@ export type trackType = {
 }
 
 export type userType = {
-    id: number,
+    _id: number,
     username: string,
     first_name: string;
     last_name: string;

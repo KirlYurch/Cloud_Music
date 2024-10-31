@@ -1,6 +1,6 @@
 export async function getTracks() {
     const res = await fetch(
-        "https://skypro-music-api.skyeng.tech/catalog/track/all/"
+        "https://webdev-music-003b5b991590.herokuapp.com/catalog/track/all/"
     );
       if (!res.ok) {
         throw new Error("Ошибка при получении данных");
@@ -10,7 +10,7 @@ export async function getTracks() {
 
 export async function fetchGetFavoriteTracks(access: string) {
     const response = await fetch(
-      "https://skypro-music-api.skyeng.tech/catalog/track/favorite/all/",
+      "https://webdev-music-003b5b991590.herokuapp.com/catalog/track/favorite/all/",
       {
         headers: {
           Authorization: `Bearer ${access}`,
@@ -26,7 +26,7 @@ export async function fetchGetFavoriteTracks(access: string) {
 
   export async function deleteFavoriteTracks(access: string, id: number ) {
     const response = await fetch(
-      `https://skypro-music-api.skyeng.tech/catalog/track/${id}/favorite/`,
+      `https://webdev-music-003b5b991590.herokuapp.com/catalog/track/${id}/favorite/`,
       {
         method: "DELETE",
         headers: {
@@ -43,7 +43,7 @@ export async function fetchGetFavoriteTracks(access: string) {
 
   export async function favoriteTracks(access: string, id: number ) {
     const response = await fetch(
-      `https://skypro-music-api.skyeng.tech/catalog/track/${id}/favorite/`,
+      `https://webdev-music-003b5b991590.herokuapp.com/catalog/track/${id}/favorite/`,
       {
         method: "POST",
         headers: {
