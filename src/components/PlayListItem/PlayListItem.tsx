@@ -21,7 +21,7 @@ export default function PlayListItem({ track, playlist }: PlayListItemProps) {
     dispatch(setCurrentTrack({ currentTrack: track, playlist })); // Обновляем здесь
   }
 
-  const isActiveTrack = track.id === currentTrack?.id;
+  const isActiveTrack = track._id === currentTrack?._id;
   let minutes = Math.floor(time / 60);
   let seconds = (time % 60).toString().padStart(2, "0");
 

@@ -6,11 +6,12 @@ export const getFavoriteTracks = createAsyncThunk(
   "playlist/getFavoriteTracks",
   async (access: string) => {
     const favoriteTracks = await fetchGetFavoriteTracks(access);
-    return favoriteTracks;
+    return favoriteTracks.data;
   }
 );
 
 type PlaylistStateType = {
+  allTracks: trackType[];
   playlist: trackType[];
   currentTrack: null | trackType;
   isPlaying: boolean;
@@ -24,7 +25,7 @@ type PlaylistStateType = {
   };
   filterPlaylist: trackType[];
   likedTracks: trackType[];
-}; 
+};
 
 type SetCurrentTrackType = {
   currentTrack: trackType;
@@ -45,18 +46,26 @@ const initialState: PlaylistStateType = {
   },
   filterPlaylist: [],
   likedTracks: [],
+  allTracks: []
 };
 
 const playlistSlice = createSlice({
   name: "playlist",
   initialState,
   reducers: {
+    setAllTracks: (state, action: PayloadAction<trackType[]>) => {
+      state.allTracks = action.payload
+    },
     setCurrentTrack: (state, action: PayloadAction<SetCurrentTrackType>) => {
       state.currentTrack = action.payload.currentTrack;
     },
     nextTrack: (state) => {
-      const playlist = state.isShuffled ? state.shuffledPlaylist : state.playlist;
-      const currentTrackIndex = playlist.findIndex((track) => track.id === state.currentTrack?.id);
+      const playlist = state.isShuffled
+        ? state.shuffledPlaylist
+        : state.playlist;
+      const currentTrackIndex = playlist.findIndex(
+        (track) => track._id === state.currentTrack?._id
+      );
       const newTrack = currentTrackIndex + 1;
       if (playlist[newTrack]) {
         state.currentTrack = playlist[newTrack];
@@ -64,8 +73,12 @@ const playlistSlice = createSlice({
       state.isPlaying = true;
     },
     prevTrack: (state) => {
-      const playlist = state.isShuffled ? state.shuffledPlaylist : state.playlist;
-      const currentTrackIndex = playlist.findIndex((track) => track.id === state.currentTrack?.id);
+      const playlist = state.isShuffled
+        ? state.shuffledPlaylist
+        : state.playlist;
+      const currentTrackIndex = playlist.findIndex(
+        (track) => track._id === state.currentTrack?._id
+      );
       const newTrack = currentTrackIndex - 1;
       if (playlist[newTrack]) {
         state.currentTrack = playlist[newTrack];
@@ -121,7 +134,7 @@ const playlistSlice = createSlice({
       // Применяем фильтрацию по жанрам
       if (state.filterOptions.genre.length > 0) {
         filterTracks = filterTracks.filter((track) =>
-          state.filterOptions.genre.includes(track.genre)
+          state.filterOptions.genre.includes(track.genre[0])
         );
       }
 
@@ -146,7 +159,7 @@ const playlistSlice = createSlice({
           (track) =>
             track.name.toLowerCase().includes(searchLower) ||
             track.author.toLowerCase().includes(searchLower) ||
-            track.genre.toLowerCase().includes(searchLower)
+            track.genre[0].toLowerCase().includes(searchLower)
         );
       }
 
@@ -157,7 +170,7 @@ const playlistSlice = createSlice({
     },
     disLikeTrack: (state, action: PayloadAction<trackType>) => {
       state.likedTracks = state.likedTracks.filter(
-        (el) => el.id !== action.payload.id
+        (el) => el._id !== action.payload._id
       );
     },
   },
@@ -172,6 +185,7 @@ const playlistSlice = createSlice({
 });
 
 export const {
+  setAllTracks,
   setCurrentTrack,
   nextTrack,
   prevTrack,
