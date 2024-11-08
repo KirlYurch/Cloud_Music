@@ -4,6 +4,7 @@ import { setFilter, setPlaylist } from "@/store/features/playlistSlice";
 import { trackType } from "@/types";
 import { RootState } from "@/store/store";
 import PlayListItem from "@components/PlayListItem/PlayListItem";
+import styles from "./ContentPlayList.module.css";
 
 type ContentPlayListProps = {
   tracks: trackType[];
@@ -47,7 +48,7 @@ export default function ContentPlayList({
   }
 
   return (
-    <div className="contentPlaylist playlist">
+    <div className={styles.contentPlaylist}>
       {memoizedPlaylist.length > 0 ? (
         memoizedPlaylist.map((track) => (
           <PlayListItem
