@@ -5,11 +5,12 @@ import { setCurrentTrack } from "@/store/features/playlistSlice";
 import { trackType } from "@/types";
 import { RootState } from "../../store/store";
 import { useLikeTrack } from "@/likes";
+import Modal from "@components/ModalWindow/Modal";
 
 type PlayListItemProps = { playlist: trackType[]; track: trackType };
 
 export default function PlayListItem({ track, playlist }: PlayListItemProps) {
-  const { isLiked, handleLike } = useLikeTrack(track);
+  const { isLiked, handleLike, showModal, setShowModal } = useLikeTrack(track);
   const dispatch = useAppDispatch();
   const { name, author, album } = track;
   const time = track.duration_in_seconds;
@@ -24,6 +25,8 @@ export default function PlayListItem({ track, playlist }: PlayListItemProps) {
   const isActiveTrack = track._id === currentTrack?._id;
   let minutes = Math.floor(time / 60);
   let seconds = (time % 60).toString().padStart(2, "0");
+
+  const closeModal = () => setShowModal(false);
 
   return (
     <div
@@ -60,11 +63,14 @@ export default function PlayListItem({ track, playlist }: PlayListItemProps) {
           <div className={styles.trackAlbumLink}>{album}</div>
         </div>
         <div className={styles.trackTime}>
-        <svg
+          <svg
             className={classNames(styles.trackTimeSvg, {
               [styles.trackTimeSvgLiked]: isLiked,
             })}
-            onClick={handleLike}
+            onClick={(event) => {
+              event.stopPropagation(); 
+              handleLike(event); 
+            }}
           >
             <use href="/image/icon/sprite.svg#icon-like" />
           </svg>
@@ -73,6 +79,7 @@ export default function PlayListItem({ track, playlist }: PlayListItemProps) {
           >{`${minutes}:${seconds}`}</span>
         </div>
       </div>
+      <Modal show={showModal} onClose={closeModal} />
     </div>
   );
 }

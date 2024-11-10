@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
   disLikeTrack,
@@ -28,13 +28,14 @@ export const useLikeTrack = (track: trackType) => {
 
   const tokens = useAppSelector((state) => state.auth.tokens);
 
+  const [showModal, setShowModal] = useState(false);
+
   const handleLike = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.stopPropagation();
     if (!tokens.access) {
-      return alert("Необходимо авторизоваться");
+      return setShowModal(true);
     }
     const action = !isLiked ? favoriteTracks : deleteFavoriteTracks;
-    console.log(isLiked);
     try {
       await action(tokens.access, track._id);
       isLiked ? dispatch(disLikeTrack(track)) : dispatch(likeTrack(track));
@@ -42,5 +43,6 @@ export const useLikeTrack = (track: trackType) => {
       console.error(error);
     }
   };
-  return { isLiked, handleLike };
+  return { isLiked, handleLike, showModal, setShowModal };
 };
+

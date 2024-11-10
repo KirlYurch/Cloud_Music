@@ -14,6 +14,7 @@ import {
   setShuffle,
 } from "@/store/features/playlistSlice";
 import { useLikeTrack } from "@/likes";
+import Modal from "@components/ModalWindow/Modal";
 
 export default function Bar() {
   const { currentTrack, isPlaying, isShuffled } = useAppSelector(
@@ -26,8 +27,9 @@ export default function Bar() {
   const [currentTime, setCurrentTime] = useState(0);
   const [isLoop, setIsLoop] = useState(false);
 
-  const { isLiked, handleLike } = useLikeTrack(currentTrack);
-  
+  const { isLiked, handleLike, showModal, setShowModal } =
+    useLikeTrack(currentTrack);
+
   useEffect(() => {
     dispatch(setPlay());
     audioRef.current?.play();
@@ -102,9 +104,11 @@ export default function Bar() {
     }
   };
 
-  
+  const closeModal = () => setShowModal(false);
+
   return (
     <>
+      <Modal show={showModal} onClose={closeModal} />
       {currentTrack && (
         <div className={styles.bar}>
           <div className={styles.barContent}>
@@ -218,26 +222,14 @@ export default function Bar() {
                       )}
                     >
                       <svg
-            className={classNames(styles.trackTimeSvg, {
-              [styles.trackTimeSvgLiked]: isLiked,
-            })}
-            onClick={handleLike}
-          >
-            <use href="/image/icon/sprite.svg#icon-like" />
-          </svg>
-                    </div>
-
-
-                    {/* <div
-                      className={classNames(
-                        styles.trackPlayDislike,
-                        styles._btnIcon
-                      )}
-                    >
-                      <svg className={styles.trackPlayDislikeSvg}>
-                        <use href="/image/icon/sprite.svg#icon-dislike" />
+                        className={classNames(styles.trackTimeSvg, {
+                          [styles.trackTimeSvgLiked]: isLiked,
+                        })}
+                        onClick={handleLike}
+                      >
+                        <use href="/image/icon/sprite.svg#icon-like" />
                       </svg>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -23,6 +23,7 @@ export default function Main() {
   }, []);
 
   return (
+    
         <CenterBlock tracks={tracks} isLoading={isLoading} error={error}/>
   );
 }

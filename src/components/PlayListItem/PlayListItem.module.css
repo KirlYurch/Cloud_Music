@@ -158,3 +158,8 @@
   fill: #b672ff;
   stroke: #696969;
 }
+
+.trackTimeSvg:hover, .trackTimeSvgLiked:hover {
+  cursor: pointer;
+  scale: 1.1;
+  }
