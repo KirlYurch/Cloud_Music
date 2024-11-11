@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Приложение Cloud_Music
 
-## Getting Started
+Cloud_Music — это музыкальное приложение, позволяющее слушать музыку, управлять плейлистами и выполнять различные операции с треками, такие как ставить лайки, добавлять в избранное и искать музыку по различным критериям.
 
-First, run the development server:
+## Функционал приложения
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Управление плейлистом
+- На странице **«Главное»** текущий трек отмечен **фиолетовой точкой**. Когда трек играет, точка пульсирует. Если трек на паузе — точка статична.
+- **Кнопка «Следующий трек»** воспроизводит следующий трек из текущего плейлиста. Если это последний трек в плейлисте, кнопка не выполняет действие.
+- **Кнопка «Предыдущий трек»** воспроизводит предыдущий трек из текущего плейлиста. Если текущий трек — первый в плейлисте, кнопка не выполняет действие.
+- **Кнопка «Перемешать»** включает/выключает режим перемешивания. Включение режима делает иконку белой, повторное включение — серой. В режиме перемешивания кнопки **«Следующий»** и **«Предыдущий»** выбирают случайный трек из плейлиста.
+- При завершении текущего трека автоматически воспроизводится следующий, если он есть.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Авторизация и регистрация
+- Пользователи могут зарегистрироваться или войти в приложение.
+- При ошибке запроса выводится сообщение об ошибке.
+- Реализована возможность выхода из приложения, при этом данные о сессии очищаются.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Лайки
+- Авторизованные пользователи могут ставить лайки трекам.
+- Логика лайков учитывает состояние (поставлен или снят) и синхронизирует изменения с сервером.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Страница избранного
+- Страница для отображения треков, добавленных в избранное пользователем.
+- Страница доступна только авторизованным пользователям.
+- Пользователи могут удалять треки из избранного, и после удаления они исчезают из списка.
 
-## Learn More
+### Поиск и фильтрация
+- **Поиск по названию**: пользователь может ввести название трека, чтобы отфильтровать список.
+- **Сортировка**: пользователи могут сортировать треки по трем параметрам: от старых к новым, от новых к старым, и по умолчанию. В одном запросе можно выбрать только один способ сортировки.
+- **Фильтрация по исполнителю**: выпадающее меню для выбора одного или нескольких исполнителей.
+- **Фильтрация по жанру**: выпадающее меню для выбора одного или нескольких жанров.
+- Если по заданным фильтрам/поиску нет результатов, показывается сообщение «Треки не найдены».
 
-To learn more about Next.js, take a look at the following resources:
+## Технологии
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Это приложение использует следующие технологии:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Next.js** — фреймворк для React, который позволяет создавать серверный рендеринг и статически генерируемые страницы.
+- **React** — библиотека для создания пользовательских интерфейсов.
+- **Redux Toolkit** — инструмент для работы с состоянием приложения.
+- **Jest** — тестирование JavaScript.
+- **TypeScript** — язык программирования, расширяющий возможности JavaScript.
+- **ESLint** — инструмент для анализа и проверки кода.
+  
