@@ -34,6 +34,7 @@ export default function Nav() {
             <div
                 onClick={togglePopUp}
                 className={classNames(styles.navBurger, styles.burger)}
+                data-testid="burger-button" 
             >
                 <span className={styles.burgerLine} />
                 <span className={styles.burgerLine} />
@@ -44,6 +45,7 @@ export default function Nav() {
                 ref={menuRef}
                 className={classNames(styles.navMenu, { [styles.navMenuOpen]: isOpened })}
                 style={{ maxHeight: menuMaxHeight }}
+                data-testid="menu" 
             >
                 <ul className={styles.menuList}>
                     <li className={styles.menuItem}>
@@ -57,7 +59,7 @@ export default function Nav() {
                         </Link>
                     </li>
                     <li className={styles.menuItem}>
-                        <Link href="../signin.html" className={styles.menuLink}>
+                        <Link href="../signin" className={styles.menuLink}>
                             Войти
                         </Link>
                     </li>
