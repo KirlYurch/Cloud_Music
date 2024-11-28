@@ -1,9 +1,9 @@
 export type trackType = {
-    id: number,
+    _id: number,
     name: string,
     author: string,
     release_date: string,
-    genre: string,
+    genre: string[],
     duration_in_seconds: number,
     album: string,
     logo: null | string,
@@ -11,10 +11,21 @@ export type trackType = {
     stared_user: Array<userType>
 }
 
-type userType = {
-    id: number,
+export type userType = {
+    _id: number,
     username: string,
     first_name: string;
     last_name: string;
     email: string;
 }
+
+export type SignInFormType = {
+    email: string;
+    password: string;
+}
+
+export type SignUpFormType = {
+    email: string;
+    password: string;
+    username: string;
+  };

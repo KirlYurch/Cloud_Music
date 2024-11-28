@@ -4,10 +4,12 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setCurrentTrack } from "@/store/features/playlistSlice";
 import { trackType } from "@/types";
 import { RootState } from "../../store/store";
+import { useLikeTrack } from "@/likes";
 
 type PlayListItemProps = { playlist: trackType[]; track: trackType };
 
 export default function PlayListItem({ track, playlist }: PlayListItemProps) {
+  const { isLiked, handleLike } = useLikeTrack(track);
   const dispatch = useAppDispatch();
   const { name, author, album } = track;
   const time = track.duration_in_seconds;
@@ -19,7 +21,7 @@ export default function PlayListItem({ track, playlist }: PlayListItemProps) {
     dispatch(setCurrentTrack({ currentTrack: track, playlist })); // Обновляем здесь
   }
 
-  const isActiveTrack = track.id === currentTrack?.id;
+  const isActiveTrack = track._id === currentTrack?._id;
   let minutes = Math.floor(time / 60);
   let seconds = (time % 60).toString().padStart(2, "0");
 
@@ -58,7 +60,12 @@ export default function PlayListItem({ track, playlist }: PlayListItemProps) {
           <div className={styles.trackAlbumLink}>{album}</div>
         </div>
         <div className={styles.trackTime}>
-          <svg className={styles.trackTimeSvg}>
+        <svg
+            className={classNames(styles.trackTimeSvg, {
+              [styles.trackTimeSvgLiked]: isLiked,
+            })}
+            onClick={handleLike}
+          >
             <use href="/image/icon/sprite.svg#icon-like" />
           </svg>
           <span

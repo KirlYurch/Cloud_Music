@@ -1,7 +1,17 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { trackType } from "@/types";
+import { fetchGetFavoriteTracks } from "@/api/tracks";
+
+export const getFavoriteTracks = createAsyncThunk(
+  "playlist/getFavoriteTracks",
+  async (access: string) => {
+    const favoriteTracks = await fetchGetFavoriteTracks(access);
+    return favoriteTracks.data;
+  }
+);
 
 type PlaylistStateType = {
+  allTracks: trackType[];
   playlist: trackType[];
   currentTrack: null | trackType;
   isPlaying: boolean;
@@ -14,6 +24,7 @@ type PlaylistStateType = {
     searchString: string;
   };
   filterPlaylist: trackType[];
+  likedTracks: trackType[];
 };
 
 type SetCurrentTrackType = {
@@ -34,18 +45,27 @@ const initialState: PlaylistStateType = {
     searchString: "",
   },
   filterPlaylist: [],
+  likedTracks: [],
+  allTracks: []
 };
 
 const playlistSlice = createSlice({
   name: "playlist",
   initialState,
   reducers: {
+    setAllTracks: (state, action: PayloadAction<trackType[]>) => {
+      state.allTracks = action.payload
+    },
     setCurrentTrack: (state, action: PayloadAction<SetCurrentTrackType>) => {
       state.currentTrack = action.payload.currentTrack;
     },
     nextTrack: (state) => {
-      const playlist = state.isShuffled ? state.shuffledPlaylist : state.playlist;
-      const currentTrackIndex = playlist.findIndex((track) => track.id === state.currentTrack?.id);
+      const playlist = state.isShuffled
+        ? state.shuffledPlaylist
+        : state.playlist;
+      const currentTrackIndex = playlist.findIndex(
+        (track) => track._id === state.currentTrack?._id
+      );
       const newTrack = currentTrackIndex + 1;
       if (playlist[newTrack]) {
         state.currentTrack = playlist[newTrack];
@@ -53,8 +73,12 @@ const playlistSlice = createSlice({
       state.isPlaying = true;
     },
     prevTrack: (state) => {
-      const playlist = state.isShuffled ? state.shuffledPlaylist : state.playlist;
-      const currentTrackIndex = playlist.findIndex((track) => track.id === state.currentTrack?.id);
+      const playlist = state.isShuffled
+        ? state.shuffledPlaylist
+        : state.playlist;
+      const currentTrackIndex = playlist.findIndex(
+        (track) => track._id === state.currentTrack?._id
+      );
       const newTrack = currentTrackIndex - 1;
       if (playlist[newTrack]) {
         state.currentTrack = playlist[newTrack];
@@ -110,7 +134,7 @@ const playlistSlice = createSlice({
       // Применяем фильтрацию по жанрам
       if (state.filterOptions.genre.length > 0) {
         filterTracks = filterTracks.filter((track) =>
-          state.filterOptions.genre.includes(track.genre)
+          state.filterOptions.genre.includes(track.genre[0])
         );
       }
 
@@ -135,16 +159,33 @@ const playlistSlice = createSlice({
           (track) =>
             track.name.toLowerCase().includes(searchLower) ||
             track.author.toLowerCase().includes(searchLower) ||
-            track.genre.toLowerCase().includes(searchLower)
+            track.genre[0].toLowerCase().includes(searchLower)
         );
       }
 
       state.filterPlaylist = filterTracks;
     },
+    likeTrack: (state, action: PayloadAction<trackType>) => {
+      state.likedTracks.push(action.payload);
+    },
+    disLikeTrack: (state, action: PayloadAction<trackType>) => {
+      state.likedTracks = state.likedTracks.filter(
+        (el) => el._id !== action.payload._id
+      );
+    },
+  },
+  extraReducers(builder) {
+    builder.addCase(
+      getFavoriteTracks.fulfilled,
+      (state, action: PayloadAction<trackType[]>) => {
+        state.likedTracks = action.payload;
+      }
+    );
   },
 });
 
 export const {
+  setAllTracks,
   setCurrentTrack,
   nextTrack,
   prevTrack,
@@ -153,6 +194,8 @@ export const {
   setShuffle,
   setFilter,
   setPlaylist,
+  likeTrack,
+  disLikeTrack,
 } = playlistSlice.actions;
 
 export const playlistReducer = playlistSlice.reducer;

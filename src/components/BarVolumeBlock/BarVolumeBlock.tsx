@@ -14,6 +14,7 @@ export default function BarVolumeBlock({ handleVolume }: BarVolumeProps) {
     setVolume(newVolume);
     handleVolume(+newVolume);
   };
+  
 
   return (
     <div className={classNames(styles.barVolumeBlock, styles.volume)}>

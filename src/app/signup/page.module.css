@@ -126,6 +126,12 @@
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+            font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -0.05px;
+    color: #FFFFFF;
   }
   
   .modalBtnSignupEnt a {
@@ -148,3 +154,36 @@
             justify-content: center;
   }
   
+  .errorHandler {
+    position: absolute;
+    color: rgb(182, 114, 255);
+    font-size: 12px;
+    margin-top: 90px;
+    font-weight: 500;
+  }
+
+  .errorHandler1 {
+    position: absolute;
+    color: rgb(182, 114, 255);
+    font-size: 12px;
+    margin-top: 152px;
+    font-weight: 500;
+  }
+  
+  .errorHandler2 {
+    position: absolute;
+    color: rgb(182, 114, 255);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 212px;
+  }
+  
+  .errorMessage {
+    color: rgb(182, 114, 255);
+    font-size: 12px;
+    font-weight: 500;
+    position: absolute;
+    margin-top: 352px;
+    text-align: center;
+    width: 250px;
+  }

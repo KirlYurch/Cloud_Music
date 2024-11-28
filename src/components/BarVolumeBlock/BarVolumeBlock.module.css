@@ -40,9 +40,34 @@
   
   .volumeProgress {
     width: 109px;
+    padding-bottom: 6px;
   }
   
   .volumeProgressLine {
-    width: 109px;
+    height: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
     cursor: pointer;
-  }
+    outline: none;
+    background: #797979; /* Цвет фона трека */
+}
+
+/* Стилизация трека ползунка */
+.volumeProgressLine::-webkit-slider-runnable-track {
+    height: 5px;
+    background: linear-gradient(to right, white 0%, white var(--volume), #797979 var(--volume), #797979 100%);
+}
+
+/* Стилизация бегунка ползунка */
+.volumeProgressLine::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 12px;
+    width: 12px;
+    background-color:  #1c1c1c;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 255, 255);
+    transition: 0.2s ease-in-out;
+    transform: translateY(-25%);
+}
