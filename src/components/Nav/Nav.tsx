@@ -23,6 +23,7 @@ export default function Nav() {
     return (
         <nav className={classNames(styles.mainNav, styles.nav)}>
             <div className={classNames(styles.navLogo, styles.logo)}>
+            <Link href="/" className={styles.menuHome}>
                 <Image
                     alt="Логотип"
                     width={113}
@@ -30,10 +31,12 @@ export default function Nav() {
                     className={styles.logoImage}
                     src="/image/logo.png"
                 />
+                 </Link>
             </div>
             <div
                 onClick={togglePopUp}
                 className={classNames(styles.navBurger, styles.burger)}
+                data-testid="burger-button" 
             >
                 <span className={styles.burgerLine} />
                 <span className={styles.burgerLine} />
@@ -44,6 +47,7 @@ export default function Nav() {
                 ref={menuRef}
                 className={classNames(styles.navMenu, { [styles.navMenuOpen]: isOpened })}
                 style={{ maxHeight: menuMaxHeight }}
+                data-testid="menu" 
             >
                 <ul className={styles.menuList}>
                     <li className={styles.menuItem}>
@@ -52,12 +56,12 @@ export default function Nav() {
                         </Link>
                     </li>
                     <li className={styles.menuItem}>
-                        <Link href="/myplaylist" className={styles.menuLink}>
+                        <Link href="../favorite" className={styles.menuLink}>
                             Мой плейлист
                         </Link>
                     </li>
                     <li className={styles.menuItem}>
-                        <Link href="../signin.html" className={styles.menuLink}>
+                        <Link href="../signin" className={styles.menuLink}>
                             Войти
                         </Link>
                     </li>

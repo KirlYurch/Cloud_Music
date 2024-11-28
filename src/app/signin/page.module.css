@@ -76,7 +76,7 @@
     border-left: none;
     border-right: none;
     border-bottom: 1px solid #d0cece;
-    padding: 8px 1px;
+    padding: 8px 5px;
   }
   
   .modalInput::-webkit-input-placeholder {
@@ -132,6 +132,11 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    color: #ffffff;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+
   }
   
   .modalBtnEnter a {
@@ -197,7 +202,31 @@
     justify-content: center;
   }
   
-  .login {
-    margin-bottom: 30px;
-  }
-  
+.password {
+  margin-top: 30px;
+}
+.errorHandler1 {
+  position: absolute;
+  color: rgb(182, 114, 255);
+  font-size: 12px;
+  margin-top: 94px;
+  font-weight: 500;
+}
+
+.errorHandler2 {
+  position: absolute;
+  color: rgb(182, 114, 255);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 155px;
+}
+
+.errorMessage {
+  color: rgb(182, 114, 255);
+  font-size: 12px;
+  font-weight: 500;
+  position: absolute;
+  margin-top: 345px;
+  text-align: center;
+  width: 250px;
+}

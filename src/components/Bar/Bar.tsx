@@ -13,6 +13,8 @@ import {
   setPlay,
   setShuffle,
 } from "@/store/features/playlistSlice";
+import { useLikeTrack } from "@/likes";
+import Modal from "@components/ModalWindow/Modal";
 
 export default function Bar() {
   const { currentTrack, isPlaying, isShuffled } = useAppSelector(
@@ -24,6 +26,9 @@ export default function Bar() {
   const duration = audioRef.current?.duration || 0;
   const [currentTime, setCurrentTime] = useState(0);
   const [isLoop, setIsLoop] = useState(false);
+
+  const { isLiked, handleLike, showModal, setShowModal } =
+    useLikeTrack(currentTrack);
 
   useEffect(() => {
     dispatch(setPlay());
@@ -99,8 +104,11 @@ export default function Bar() {
     }
   };
 
+  const closeModal = () => setShowModal(false);
+
   return (
     <>
+      <Modal show={showModal} onClose={closeModal} />
       {currentTrack && (
         <div className={styles.bar}>
           <div className={styles.barContent}>
@@ -213,18 +221,13 @@ export default function Bar() {
                         styles._btnIcon
                       )}
                     >
-                      <svg className={styles.trackPlayLikeSvg}>
+                      <svg
+                        className={classNames(styles.trackTimeSvg, {
+                          [styles.trackTimeSvgLiked]: isLiked,
+                        })}
+                        onClick={handleLike}
+                      >
                         <use href="/image/icon/sprite.svg#icon-like" />
-                      </svg>
-                    </div>
-                    <div
-                      className={classNames(
-                        styles.trackPlayDislike,
-                        styles._btnIcon
-                      )}
-                    >
-                      <svg className={styles.trackPlayDislikeSvg}>
-                        <use href="/image/icon/sprite.svg#icon-dislike" />
                       </svg>
                     </div>
                   </div>

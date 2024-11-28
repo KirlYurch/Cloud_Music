@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import styles from './FilterItem.module.css';
 
 type FilterItemType = {
-  id: number;
+  _id: number;
   name: string;
 };
 
@@ -20,7 +20,7 @@ const FilterItem: React.FC<FilterItemProps> = ({ FilterList, selectedFilters, fi
       <ul className={styles.filterList}>
         {FilterList.map((item) => (
           <li
-            key={item.id}
+            key={item._id}
             className={classNames(styles.li, {
               [styles.selected]: selectedFilters.includes(item.name),
             })}

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
-import styles from './BlockFilter.module.css';
-import FilterItem from '../FilterItem/FilterItem';
-import { useAppDispatch } from '@/hooks';
-import { setFilter } from '@/store/features/playlistSlice';
+import React, { useState, useEffect } from "react";
+import classNames from "classnames";
+import styles from "./BlockFilter.module.css";
+import FilterItem from "../FilterItem/FilterItem";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setFilter } from "@/store/features/playlistSlice";
 
 type FilterItemType = {
-  id: number;
+  _id: number;
   name: string;
 };
 
@@ -15,40 +15,37 @@ const BlockFilter: React.FC = () => {
   const [authors, setAuthors] = useState<FilterItemType[]>([]);
   const [genres, setGenres] = useState<FilterItemType[]>([]);
   const [years, setYears] = useState<FilterItemType[]>([
-    { id: 1, name: "По умолчанию" },
-    { id: 2, name: "Сначала новые" },
-    { id: 3, name: "Сначала старые" },
+    { _id: 1, name: "По умолчанию" },
+    { _id: 2, name: "Сначала новые" },
+    { _id: 3, name: "Сначала старые" },
   ]);
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<string>("По умолчанию");
   const dispatch = useAppDispatch();
+  const { allTracks } = useAppSelector((state) => state.playlist);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("https://skypro-music-api.skyeng.tech/catalog/track/all/");
-        if (!res.ok) {
-          throw new Error("Ошибка при получении данных");
-        }
-        const data = await res.json();
+    function fetchData() {
+      // Пример преобразования данных
+      const authorSet = new Set<string>();
+      const genreSet = new Set<string>();
+      allTracks.forEach((item: { author: string; genre: string[] }) => {
+        authorSet.add(item.author);
+        genreSet.add(item.genre[0]);
+      });
 
-        // Пример преобразования данных
-        const authorSet = new Set<string>();
-        const genreSet = new Set<string>();
-        data.forEach((item: { author: string; genre: string; }) => {
-          authorSet.add(item.author);
-          genreSet.add(item.genre);
-        });
+      const authorsArray = Array.from(authorSet).map((author, index) => ({
+        _id: index + 1,
+        name: author,
+      }));
+      const genresArray = Array.from(genreSet).map((genre, index) => ({
+        _id: index + 1,
+        name: genre,
+      }));
 
-        const authorsArray = Array.from(authorSet).map((author, index) => ({ id: index + 1, name: author }));
-        const genresArray = Array.from(genreSet).map((genre, index) => ({ id: index + 1, name: genre }));
-
-        setAuthors(authorsArray);
-        setGenres(genresArray);
-      } catch (error) {
-        console.error("Ошибка:", error);
-      }
+      setAuthors(authorsArray);
+      setGenres(genresArray);
     }
 
     fetchData();
@@ -60,21 +57,21 @@ const BlockFilter: React.FC = () => {
 
   function handleFilterItemClick(filterType: string, name: string) {
     switch (filterType) {
-      case 'author':
+      case "author":
         const updatedSelectedAuthors = selectedAuthors.includes(name)
           ? selectedAuthors.filter((a) => a !== name)
           : [...selectedAuthors, name];
         setSelectedAuthors(updatedSelectedAuthors);
         dispatch(setFilter({ author: updatedSelectedAuthors }));
         break;
-      case 'genre':
+      case "genre":
         const updatedSelectedGenres = selectedGenres.includes(name)
           ? selectedGenres.filter((g) => g !== name)
           : [...selectedGenres, name];
         setSelectedGenres(updatedSelectedGenres);
         dispatch(setFilter({ genre: updatedSelectedGenres }));
         break;
-      case 'year':
+      case "year":
         setSelectedYear(name);
         if (name === "По умолчанию") {
           dispatch(setFilter({ order: "По умолчанию" }));
@@ -103,7 +100,7 @@ const BlockFilter: React.FC = () => {
             styles._btnText
           )}
         >
-          Исполнителю 
+          Исполнителю
           {selectedAuthors.length > 0 && (
             <div className={styles.badge}>{selectedAuthors.length}</div>
           )}
@@ -128,7 +125,7 @@ const BlockFilter: React.FC = () => {
             styles._btnText
           )}
         >
-          Жанру 
+          Жанру
           {selectedGenres.length > 0 && (
             <div className={styles.badge}>{selectedGenres.length}</div>
           )}
@@ -153,7 +150,7 @@ const BlockFilter: React.FC = () => {
             styles._btnText
           )}
         >
-          Году выпуска 
+          Году выпуска
           {selectedYear !== "По умолчанию" && (
             <div className={styles.badge}>{selectedYear}</div>
           )}

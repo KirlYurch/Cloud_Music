@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(28, 28, 28, 0.5);
+  background: #1c1c1c;
 }
 
 .barContent {
@@ -38,7 +38,7 @@
 }
 
 .barPlayerBlock {
-  height: 73px;
+  height: 70px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -49,6 +49,7 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 .barPlayer {
@@ -263,7 +264,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-left: 26%;
+  margin-left: 25px;
 }
 
 .trackPlayLike,
@@ -323,4 +324,25 @@
 
 .volumeProgressLine {
   width: 109px;
+}
+
+.trackTimeSvg {
+  width: 14px;
+  height: 12px;
+  margin-right: 17px;
+  fill: transparent;
+  stroke: #696969;
+  transition: all 0.2s;
+}
+
+.trackTimeSvgLiked {
+  width: 14px;
+  height: 12px;
+  fill: #b672ff;
+  stroke: #696969;
+}
+
+.trackTimeSvg:hover, .trackTimeSvgLiked:hover {
+cursor: pointer;
+scale: 1.1;
 }
