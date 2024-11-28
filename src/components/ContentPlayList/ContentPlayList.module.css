@@ -6,7 +6,6 @@
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
-    
   }
 
   .playlistItem {
@@ -14,7 +13,7 @@
     display: block;
     margin-bottom: 12px;
   }
-  
+
   .playlistTrack {
     display: -webkit-box;
     display: -ms-flexbox;

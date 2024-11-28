@@ -13,6 +13,8 @@ import {
   setPlay,
   setShuffle,
 } from "@/store/features/playlistSlice";
+import BarLikeBlock from "@components/BarLikeBlock/BarLikeBlock";
+import { useLikedTracks } from "@/likes";
 
 export default function Bar() {
   const { currentTrack, isPlaying, isShuffled } = useAppSelector(
@@ -25,6 +27,8 @@ export default function Bar() {
   const [currentTime, setCurrentTime] = useState(0);
   const [isLoop, setIsLoop] = useState(false);
 
+  const { isLiked, handleLike } = useLikedTracks(currentTrack ?? { track: null });
+  
   useEffect(() => {
     dispatch(setPlay());
     audioRef.current?.play();
@@ -99,6 +103,7 @@ export default function Bar() {
     }
   };
 
+  
   return (
     <>
       {currentTrack && (
@@ -213,11 +218,20 @@ export default function Bar() {
                         styles._btnIcon
                       )}
                     >
-                      <svg className={styles.trackPlayLikeSvg}>
-                        <use href="/image/icon/sprite.svg#icon-like" />
+                      <svg
+                        className={styles.trackPlayLikeSvg}
+                        onClick={handleLike}
+                      >
+                        {isLiked ? (
+                          <use href="/image/icon/sprite.svg#icon-like" />
+                        ) : (
+                          <use href="/image/icon/sprite.svg#icon-dislike" />
+                        )}
                       </svg>
                     </div>
-                    <div
+
+
+                    {/* <div
                       className={classNames(
                         styles.trackPlayDislike,
                         styles._btnIcon
@@ -226,7 +240,7 @@ export default function Bar() {
                       <svg className={styles.trackPlayDislikeSvg}>
                         <use href="/image/icon/sprite.svg#icon-dislike" />
                       </svg>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

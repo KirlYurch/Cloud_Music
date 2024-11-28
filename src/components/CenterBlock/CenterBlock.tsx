@@ -4,8 +4,15 @@ import BlockFilter from "@components/BlockFilter/BlockFilter";
 import ContentPlayList from "@components/ContentPlayList/ContentPlayList";
 import { useAppDispatch } from "@/hooks";
 import { setFilter } from "@/store/features/playlistSlice";
+import { trackType } from "@/types";
 
-export default function CenterBlock() {
+type CenterBlockProps = {
+  tracks: trackType[];
+  isLoading: boolean;
+  error: string | null;
+};
+
+export default function CenterBlock({ tracks, isLoading, error }: CenterBlockProps) {
   const dispatch = useAppDispatch();
   return (
     <div className={classNames(styles.mainCenterblock, styles.centerblock)}>
@@ -48,7 +55,7 @@ export default function CenterBlock() {
           </div>
         </div>
 
-        <ContentPlayList />
+        <ContentPlayList  tracks={tracks} isLoading={isLoading} error={error}  />
       </div>
     </div>
   );
